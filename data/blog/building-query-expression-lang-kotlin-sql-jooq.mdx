@@ -1,0 +1,365 @@
+---
+title: Building a Query Expression Language in Kotlin, plus dynamic SQL Generation using jOOQ
+date: '2022-03-19'
+tags: ['kotlin', 'sql', 'jvm', 'query-engines', 'jooq']
+draft: false
+summary: A tutorial on building a Query Expression Language/AST in Kotlin and implementing SQL generation
+images: []
+---
+
+<TOCInline toc={props.toc} indentDepth={2} asDisclosure />
+
+---
+
+# Overview
+
+In this post we'll walk through building a simple query expression language in Kotlin, and then using it to generate dynamic SQL. First via a simple string-producing function, then through a less fragile method via jOOQ's query DSL.
+
+## Motivation
+
+This sort of AST/intermediate representation of data-compute operations is useful in many situations, including:
+
+- Creating structured/serializeable expressions that can be transfered between systems
+  - See: [Substrait: Cross-Language Serialization for Relational Algebra](https://substrait.io/)
+- Writing translations between query languages
+- The development of query engines and their planners/optimizers
+
+In my spare time over the past months I've had [a passion project that involves parsing GraphQL queries into an IR, and then generating + executing SQL from it.](https://github.com/GavinRay97/GraphQLCalcite)
+
+This post is an attempt to share some of the knowledge and tips I've gained from working on that project, as well as showcase what an excellent language Kotlin is.
+
+## Goals
+
+What we'll ultimately be building is a program that can consume/produce a structured operation expression like the below:
+
+```json
+{
+  "select": ["id", "name", "age"],
+  "from": "users",
+  "where": {
+    "type": "EQ",
+    "left": {
+      "type": "COLUMN",
+      "name": "name"
+    },
+    "right": {
+      "type": "LITERAL",
+      "value": "John"
+    }
+  },
+  "groupBy": null,
+  "orderBy": ["name"],
+  "limit": 5,
+  "offset": 2
+}
+```
+
+And convert it into the corresponding SQL query:
+
+```sql
+select id, name, age
+from users
+where name = 'John'
+order by name
+offset 2 rows
+fetch next 5 rows only
+```
+
+Represented as code, this expression will look like this:
+
+```kt
+Query(
+    from = "users",
+    select = listOf("id", "name", "age"),
+    orderBy = listOf("name"),
+    limit = 5,
+    offset = 2,
+    where = EQ(
+        COLUMN("name"),
+        LITERAL("John")
+    )
+)
+```
+
+# Architecture
+
+The high-level architecture of the program is as follows:
+
+- A sealed interface/algebraic data type, `Expression`, which represents the abstract syntax tree of a query `where` clause
+- An interface, `ExpressionTranslator<T>` which represents a function that translates an `Expression` into a concrete value
+  - A class, `SimpleStringExpressionTranslator`, which implements `ExpressionTranslator<String>`
+  - A class, `jOOQExpressionTranslator`, which implements `ExpressionTranslator<org.jooq.QueryPart>`
+- A class, `Query`, which contains the entirety of single query operation:
+  - `select`/`from`/`where`/`group by`/`order by`/`limit`/`offset`
+- An interface, `QueryTranslator` which represents a function that translates a `Query` into a concrete value
+  - A class, `SimpleStringQueryTranslator`, which implements `QueryTranslator<String>`
+  - A class, `jOOQQueryTranslator`, which implements `QueryTranslator<String>`
+
+# Let's Build It
+
+## Implementing the `Expression` AST
+
+The below diagram shows the structure of the `Expression` interface we'll be building (with some `BinaryOperation` members omitted for size):
+
+<img src="/static/images/kotlin-query-expression-hierarchy-diagram.svg" />
+
+We have three _classes_ of nodes:
+
+- `BinaryOperation`'s. These are operations that have two operands, such as `EQ`, `GT`, `LT`, etc, as well as the boolean `AND` and `OR`
+- `UnaryOperation`'s. These are operations that have one operand, such as `NOT`, `IS NULL`, etc
+- "Other" -- `COLUMN` and `LITERAL`, our two concrete/leaf nodes
+
+Represented as Kotlin types, these classes look like this:
+
+```kotlin
+sealed interface Expression
+
+sealed interface BinaryOperation : Expression {
+    val operator: String
+    val left: Expression
+    val right: Expression
+}
+
+sealed interface UnaryOperation : Expression {
+    val operator: String
+    val operand: Expression
+}
+
+data class AND(override val left: Expression, override val right: Expression) : BinaryOperation {
+    override val operator = "AND"
+}
+
+data class OR(override val left: Expression, override val right: Expression) : BinaryOperation {
+    override val operator = "OR"
+}
+
+data class EQ(override val left: Expression, override val right: Expression) : BinaryOperation {
+    override val operator = "="
+}
+
+// Let's skip the rest of the `BinaryOperation`s for brevity
+
+data class NOT(override val operand: Expression) : UnaryOperation {
+    override val operator = "NOT"
+}
+
+data class IS_NULL(override val operand: Expression) : UnaryOperation {
+    override val operator = "IS NULL"
+}
+
+data class COLUMN(val name: String) : Expression
+
+data class LITERAL(val value: Any) : Expression
+```
+
+## The `Query` object
+
+Below will be our representation of a query:
+
+```kotlin
+data class Query(
+    val select: List<String>,
+    val from: String,
+    val where: Expression? = null,
+    val groupBy: List<String>? = null,
+    val orderBy: List<String>? = null,
+    val limit: Int? = null,
+    val offset: Int? = null
+)
+```
+
+## The `ExpressionTranslator` Interface
+
+We need an interface/typeclass that allows us to translate an `Expression` into a concrete value.
+
+This is the purpose of `ExpressionTranslator`:
+
+```kotlin
+interface ExpressionTranslator<T> {
+    fun translate(expression: Expression): T
+}
+```
+
+### A simple String translator
+
+Now we can implement the equivalent of an "interpreter" that produces a string from an `Expression` AST.
+
+We'll call this object `SimpleStringExpressionTranslator`, and it will implement the `ExpressionTranslator<String>` interface:
+
+```kotlin
+interface ExpressionTranslator<T> {
+    fun translate(expression: Expression): T
+}
+
+object SimpleStringExpressionTranslator : ExpressionTranslator<String> {
+    override fun translate(expression: Expression): String {
+        return when (expression) {
+            is COLUMN -> expression.name
+            is LITERAL -> expression.value.toString()
+            is BinaryOperation -> {
+                val left = translate(expression.left)
+                val right = translate(expression.right)
+                "$left ${expression.operator} $right"
+            }
+            is UnaryOperation -> {
+                val operand = translate(expression.operand)
+                "${expression.operator} $operand"
+            }
+        }
+    }
+}
+```
+
+We'll combine this translator for the `where` clause of a query with a translator for the other bits of a query, to produce a complete SQL expression:
+
+```kotlin
+fun interface QueryTranslator<T> {
+    fun translate(query: Query): T
+}
+
+object SimpleStringQueryTranslator : QueryTranslator<String> {
+    override fun translate(query: Query): String {
+        val select = query.select.joinToString(", ")
+        val where = query.where?.let { SimpleStringExpressionTranslator.translate(it) }
+        val groupBy = query.groupBy?.joinToString(", ")
+        val orderBy = query.orderBy?.joinToString(", ")
+        val limit = query.limit
+        val offset = query.offset
+        return """
+            SELECT $select
+            FROM ${query.from}
+            ${where?.let { "WHERE $it" } ?: ""}
+            ${groupBy?.let { "GROUP BY $it" } ?: ""}
+            ${orderBy?.let { "ORDER BY $it" } ?: ""}
+            ${limit?.let { "LIMIT $it" } ?: ""}
+            ${offset?.let { "OFFSET $it" } ?: ""}
+        """.trimIndent()
+    }
+}
+```
+
+### Testing the String translator
+
+Now we can [test our simple translator in the Kotlin Playground](https://pl.kotl.in/3PgFe73wT):
+
+```kotlin
+val expression = AND(
+    OR(
+        EQ(
+            COLUMN("name"),
+            LITERAL("John")
+        ),
+        LT(
+            COLUMN("age"),
+            LITERAL(30)
+        )
+    ),
+    NOT(
+        EQ(
+            COLUMN("id"),
+            LITERAL(42)
+        )
+    )
+)
+
+val query = Query(
+    from = "users",
+    select = listOf("id", "name", "age"),
+    orderBy = listOf("name"),
+    limit = 5,
+    offset = 2,
+    where = expression
+)
+
+val t = SimpleStringQueryTranslator
+val result = t.translate(query)
+println(result)
+```
+
+The output should be:
+
+```sql
+SELECT id, name, age
+FROM users
+WHERE name = John OR age < 30 AND NOT id = 42
+ORDER BY name
+LIMIT 5
+OFFSET 2
+```
+
+### The jOOQ translator
+
+Now we'll implement the above, but using jOOQ's DSL API.
+
+```kotlin
+object jOOQExpressionTranslator : ExpressionTranslator<QueryPart> {
+    override fun translate(expression: Expression): QueryPart {
+        return when (expression) {
+            is COLUMN -> field(name(expression.name))
+            is LITERAL -> inline(expression.value)
+            is BinaryOperation -> {
+                val left = translate(expression.left)
+                val right = translate(expression.right)
+                when (expression) {
+                    is AND -> and(left as Condition, right as Condition)
+                    is OR -> or(left as Condition, right as Condition)
+                    is EQ -> (left as Field<Any>).eq(right)
+                    is NEQ -> (left as Field<Any>).ne(right)
+                    is LT -> (left as Field<Any>).lt(right)
+                    is LTE -> (left as Field<Any>).le(right)
+                    is GT -> (left as Field<Any>).gt(right)
+                    is GTE -> (left as Field<Any>).ge(right)
+                    is IN -> (left as Field<Any>).`in`(right as Any)
+                }
+            }
+            is UnaryOperation -> {
+                val operand = translate(expression.operand)
+                when (expression) {
+                    is NOT -> not(operand as Condition)
+                    is IS_NULL -> (operand as Field<Any>).isNull
+                }
+            }
+        }
+    }
+}
+```
+
+```kotlin
+object jOOQQueryTranslator : QueryTranslator<String> {
+
+    private val ctx: DSLContext = DSL.using(
+        SQLDialect.POSTGRES,
+        Settings()
+            .withRenderFormatted(true)
+            .withRenderQuotedNames(RenderQuotedNames.EXPLICIT_DEFAULT_UNQUOTED)
+    )
+
+    override fun translate(query: Query): String {
+        val statement = select(query.select.map { field(name(it)) })
+            .from(table(name(query.from)))
+            .apply {
+                query.where?.let { where(jOOQExpressionTranslator.translate(it) as Condition) }
+                query.groupBy?.let { groupBy(it.map { field(name(it)) }) }
+                query.orderBy?.let { orderBy(it.map { field(name(it)) }) }
+                query.limit?.let { limit(inline(it)) }
+                query.offset?.let { offset(inline(it)) }
+            }
+        return ctx.render(statement)
+    }
+}
+```
+
+### Testing the jOOQ translator
+
+Unfortunately due to needing the jOOQ library, we can't test this in the Kotlin Playground.
+
+But, I've uploaded the full working application to repl.it [that you can access here](https://replit.com/@GavinRay97/Blogpost-Building-a-Query-Expression-Language-in-Kotlin-mvn#src/main/kotlin/Application.kt):
+
+> Note: Scroll up slightly in the `Console` panel at the bottom of the repl.it embed below to see the `println()` output of the generated SQL
+
+<iframe
+  frameborder="0"
+  width="100%"
+  height="500px"
+  src="https://replit.com/@GavinRay97/Blogpost-Building-a-Query-Expression-Language-in-Kotlin-mvn?lite=true"
+/>
