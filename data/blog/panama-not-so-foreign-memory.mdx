@@ -1,0 +1,382 @@
+---
+title: 'Panama: Not-so-Foreign Memory. Using MemorySegment as a high-performance ByteBuffer replacement.'
+date: '2022-09-03'
+tags: ['java', 'jvm', 'foreign-memory', 'panama']
+draft: false
+summary: An overview of how the Panama Foreign Memory API can be useful outside of foreign/native applications
+images: []
+---
+
+<TOCInline toc={props.toc} indentDepth={2} asDisclosure />
+
+---
+
+# Preface
+
+If I asked you to write performance-sensitive code for working with binary data/bytes on the JVM, you'd probably use one of the following:
+
+- `byte[]`
+- `ByteBuffer`
+- `Unsafe`
+
+These are fine answers -- and, to date, essentially the _only_ answers.
+
+While reading the [Panama Memory Access explainer](https://github.com/openjdk/panama-foreign/blob/foreign-memaccess%2Babi/doc/panama_memaccess.md#segments), I recognized a usecase based on hobby projects I'd done lately which (to me) wasn't immediately obvious from the document or the names of the API's:
+
+Panama's `MemorySegment` API provides a drop-in compatible `ByteBuffer` replacement with better performance, no 2GB size limit, and proper API's for working with structured binary data.
+
+Even if there's nothing "Foreign"/"Native" about your data, if you're working with bytes & bits, you could likely benefit from Panama.
+
+Let's take a look at how.
+
+# Overview
+
+I have an avid interest in databases/query engines, and during the past months have been spending most of my spare time studying their internals.
+
+If you write a DB on the JVM, you need be able to read/write binary data efficiently. Educational databases like SimpleDB use `ByteBuffer`, but we can do better nowadays.
+
+**Let's look at a real-world implementation:**
+
+What we'll implement is the reading/writing of a database's `Heap File Page` header using MemorySegment's.
+The design is taken from [CMU's BusTub educational DB](https://github.com/cmu-db/bustub/blob/734cd67a7834886f4c172514f188919fbbfb9d88/src/include/storage/page/table_page.h#L27-L44):
+
+```
+Header format (size in bytes):
+----------------------------------------------------------------------------
+| PageId (4)| LSN (4)| PrevPageId (4)| NextPageId (4)| FreeSpacePointer(4) |
+----------------------------------------------------------------------------
+----------------------------------------------------------------
+| TupleCount (4) | Tuple_1 offset (4) | Tuple_1 size (4) | ... |
+----------------------------------------------------------------
+```
+
+# Implementation (Offset-based)
+
+In a proper implementation, the `getter`/`setter` would proxy the underlying access to the memory segment.
+(You don't want to allocate objects and perform extra serialization)
+
+Because that'd be a lot of boilerplate code, what we'll do instead is make a POJO that has `fromBytes()` and `toBytes()` method, which will illustrate the same idea:
+
+```java
+class HeapFilePageHeader {
+    public int pageId;
+    public int lsn;
+    public int prevPageId;
+    public int nextPageId;
+    public int freeSpacePointer;
+    public int tupleCount;
+
+    // Constructor omitted
+
+    public static HeapFilePageHeader fromBytes(MemorySegment buffer) {
+        return new HeapFilePageHeader(
+                buffer.get(ValueLayout.JAVA_INT, 0),
+                buffer.get(ValueLayout.JAVA_INT, 4),
+                buffer.get(ValueLayout.JAVA_INT, 8),
+                buffer.get(ValueLayout.JAVA_INT, 12),
+                buffer.get(ValueLayout.JAVA_INT, 16),
+                buffer.get(ValueLayout.JAVA_INT, 20)
+        );
+    }
+
+    public void toBytes(MemorySegment buffer) {
+        buffer.set(ValueLayout.JAVA_INT, 0, pageId);
+        buffer.set(ValueLayout.JAVA_INT, 4, lsn);
+        buffer.set(ValueLayout.JAVA_INT, 8, prevPageId);
+        buffer.set(ValueLayout.JAVA_INT, 12, nextPageId);
+        buffer.set(ValueLayout.JAVA_INT, 16, freeSpacePointer);
+        buffer.set(ValueLayout.JAVA_INT, 20, tupleCount);
+    }
+}
+```
+
+# Implementation (Structure-based)
+
+Using it offset-based in this way is nearly identical to the API you're used to from ByteBuffer.
+There's not much else to it.
+
+But `MemorySegment` also offers us a structure-based API, where we can define the shape of our binary data and use varhandles to reference the member offsets.
+
+Implementing that looks something like this:
+
+> Note: See "Tips & Tricks" to see how this can be auto-generated
+
+```java
+class HeapFilePageHeader {
+
+    private static final MemoryLayout HEADER_LAYOUT = MemoryLayout.structLayout(
+            ValueLayout.JAVA_INT.withName("pageId"),
+            ValueLayout.JAVA_INT.withName("lsn"),
+            ValueLayout.JAVA_INT.withName("prevPageId"),
+            ValueLayout.JAVA_INT.withName("nextPageId"),
+            ValueLayout.JAVA_INT.withName("freeSpacePointer"),
+            ValueLayout.JAVA_INT.withName("tupleCount")
+    );
+
+    private static final VarHandle VH_HEADER_PAGE_ID = HEADER_LAYOUT.varHandle(groupElement("pageId"));
+    private static final VarHandle VH_HEADER_LSN = HEADER_LAYOUT.varHandle(groupElement("lsn"));
+    private static final VarHandle VH_HEADER_PREV_PAGE_ID = HEADER_LAYOUT.varHandle(groupElement("prevPageId"));
+    private static final VarHandle VH_HEADER_NEXT_PAGE_ID = HEADER_LAYOUT.varHandle(groupElement("nextPageId"));
+    private static final VarHandle VH_HEADER_FREE_SPACE_POINTER = HEADER_LAYOUT.varHandle(groupElement("freeSpacePointer"));
+    private static final VarHandle VH_HEADER_TUPLE_COUNT = HEADER_LAYOUT.varHandle(groupElement("tupleCount"));
+
+    public static HeapFilePageHeader fromBytes(MemorySegment buffer) {
+        return new HeapFilePageHeader(
+                (int) VH_HEADER_LSN.get(buffer),
+                (int) VH_HEADER_PREV_PAGE_ID.get(buffer),
+                (int) VH_HEADER_NEXT_PAGE_ID.get(buffer),
+                (int) VH_HEADER_FREE_SPACE_POINTER.get(buffer),
+                (int) VH_HEADER_TUPLE_COUNT.get(buffer)
+        );
+    }
+
+    public void toBytes(MemorySegment buffer) {
+        VH_HEADER_PAGE_ID.set(buffer, pageId);
+        VH_HEADER_LSN.set(buffer, lsn);
+        VH_HEADER_PREV_PAGE_ID.set(buffer, prevPageId);
+        VH_HEADER_NEXT_PAGE_ID.set(buffer, nextPageId);
+        VH_HEADER_FREE_SPACE_POINTER.set(buffer, freeSpacePointer);
+        VH_HEADER_TUPLE_COUNT.set(buffer, tupleCount);
+    }
+}
+```
+
+You may be thinking "Wow, that's a lot more code", but (beyond the fact it can be autogenerated) [to quote Maurizio Cimadamore, Panama project lead](https://mail.openjdk.org/pipermail/panama-dev/2022-September/017519.html):
+
+> Using var handles is very useful when you want to access elements (e.g.
+> structs inside other structs inside arrays) as it takes all the offset
+> computation out of the way.
+
+> If you're happy enough with hardwired offsets (and I agree that in this
+> case things might be good enough), then there's nothing wrong with using
+> the ready-made accessor methods.
+
+`MemorySegments` allow you to create sequences of repeated layouts/nested layouts, and pass indices into the accessors.
+
+So rather than manually calculate byte offsets, you can do the equivalent of `foo[i].bar` as you would in C/C++:
+
+```java
+record Slot(int offset, int length) {
+
+    private static final MemoryLayout SLOT_LAYOUT = MemoryLayout.structLayout(
+            ValueLayout.JAVA_INT.withName("offset"),
+            ValueLayout.JAVA_INT.withName("length")
+    );
+
+    // Compose multiple layouts
+    private static final MemoryLayout PAGE_LAYOUT = MemoryLayout.structLayout(
+            HeapFilePageHeader.HEADER_LAYOUT,
+            MemoryLayout.sequenceLayout(100, SLOT_LAYOUT).withName("slots")
+    );
+
+    // slots[i].offset
+    private static final VarHandle VH_OFFSET = PAGE_LAYOUT.varHandle(groupElement("slots"), sequenceElement(), groupElement("offset"));
+    // slots[i].length
+    private static final VarHandle VH_LENGTH = PAGE_LAYOUT.varHandle(groupElement("slots"), sequenceElement(), groupElement("length"));
+
+    public static Slot fromBuffer(MemorySegment buffer, int index) {
+        int offset = (int) VH_OFFSET.get(buffer, index);
+        int length = (int) VH_LENGTH.get(buffer, index);
+        return new Slot(offset, length);
+    }
+
+    public void writeToBuffer(MemorySegment buffer, int index) {
+        VH_OFFSET.set(buffer, index, offset);
+        VH_LENGTH.set(buffer, index, length);
+    }
+}
+```
+
+# Further Tips & Tricks
+
+## Conversions between MemorySegment and arrays or ByteBuffers
+
+MemorySegment has API methods to convert to/from both arrays of primitives and `ByteBuffers`.
+
+When wrapping a MemorySegment as a ByteBuffer, there is still a performance gain (see: "ByteBuffers are dead, Long Live ByteBuffers!" presentation in Resources section).
+
+## Working with char\* (or similar - opaque, sized binary chunk)
+
+If you need to work with the equivalent of `char*`, you can do it using the `MemorySegment.copy()` static method:
+
+- [MemorySegment.copy() JDK 19 JavaDoc](<https://download.java.net/java/early_access/jdk19/docs/api/java.base/java/lang/foreign/MemorySegment.html#copy(java.lang.foreign.MemorySegment,long,java.lang.foreign.MemorySegment,long,long)>)
+
+```java
+void setTupleData(MemorySegment buffer, int tupleOffset, MemorySegment tupleData) {
+    MemorySegment.copy(tupleData, 0, buffer, tupleOffset + ValueLayout.JAVA_INT.byteSize(), tupleData.byteSize());
+}
+```
+
+## Autogenerating reader/writer code for binary data types
+
+The structure-based implementation of `HeapFileHeader` can be generated automatically, using the `jextract` tool.
+
+- You can download it here: https://jdk.java.net/jextract/
+
+To show how to do this, lets consider the C implementation of our `Header` structure:
+
+```c
+struct HeapFilePageHeader {
+    unsigned int pageId;
+    unsigned int logSequenceNumber;
+    unsigned int prevPageId;
+    unsigned int nextPageId;
+    unsigned int freeSpacePointer;
+    unsigned int tupleCount;
+};
+```
+
+Assuming this is in a file called `structs.h`, we can run:
+
+- `jextract --source --out /some/dir /path/to/structs.h`
+
+What this gives you is all the boilerplate code you'd need to work with reading/writing this struct from binary data using `MemorySegment`'s:
+
+```java
+// Generated by jextract
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.VarHandle;
+import java.nio.ByteOrder;
+import java.lang.foreign.*;
+import static java.lang.foreign.ValueLayout.*;
+
+public class HeapFilePageHeader {
+
+    static final  GroupLayout $struct$LAYOUT = MemoryLayout.structLayout(
+        Constants$root.C_LONG$LAYOUT.withName("pageId"),
+        Constants$root.C_LONG$LAYOUT.withName("logSequenceNumber"),
+        Constants$root.C_LONG$LAYOUT.withName("prevPageId"),
+        Constants$root.C_LONG$LAYOUT.withName("nextPageId"),
+        Constants$root.C_LONG$LAYOUT.withName("freeSpacePointer"),
+        Constants$root.C_LONG$LAYOUT.withName("tupleCount")
+    ).withName("HeapFilePageHeader");
+
+    public static MemoryLayout $LAYOUT() {
+        return HeapFilePageHeader.$struct$LAYOUT;
+    }
+    static final VarHandle pageId$VH = $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("pageId"));
+    public static VarHandle pageId$VH() {
+        return HeapFilePageHeader.pageId$VH;
+    }
+    public static int pageId$get(MemorySegment seg) {
+        return (int)HeapFilePageHeader.pageId$VH.get(seg);
+    }
+    public static void pageId$set( MemorySegment seg, int x) {
+        HeapFilePageHeader.pageId$VH.set(seg, x);
+    }
+    public static int pageId$get(MemorySegment seg, long index) {
+        return (int)HeapFilePageHeader.pageId$VH.get(seg.asSlice(index*sizeof()));
+    }
+    public static void pageId$set(MemorySegment seg, long index, int x) {
+        HeapFilePageHeader.pageId$VH.set(seg.asSlice(index*sizeof()), x);
+    }
+    static final VarHandle logSequenceNumber$VH = $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("logSequenceNumber"));
+    public static VarHandle logSequenceNumber$VH() {
+        return HeapFilePageHeader.logSequenceNumber$VH;
+    }
+    public static int logSequenceNumber$get(MemorySegment seg) {
+        return (int)HeapFilePageHeader.logSequenceNumber$VH.get(seg);
+    }
+    public static void logSequenceNumber$set( MemorySegment seg, int x) {
+        HeapFilePageHeader.logSequenceNumber$VH.set(seg, x);
+    }
+    public static int logSequenceNumber$get(MemorySegment seg, long index) {
+        return (int)HeapFilePageHeader.logSequenceNumber$VH.get(seg.asSlice(index*sizeof()));
+    }
+    public static void logSequenceNumber$set(MemorySegment seg, long index, int x) {
+        HeapFilePageHeader.logSequenceNumber$VH.set(seg.asSlice(index*sizeof()), x);
+    }
+    static final VarHandle prevPageId$VH = $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("prevPageId"));
+    public static VarHandle prevPageId$VH() {
+        return HeapFilePageHeader.prevPageId$VH;
+    }
+    public static int prevPageId$get(MemorySegment seg) {
+        return (int)HeapFilePageHeader.prevPageId$VH.get(seg);
+    }
+    public static void prevPageId$set( MemorySegment seg, int x) {
+        HeapFilePageHeader.prevPageId$VH.set(seg, x);
+    }
+    public static int prevPageId$get(MemorySegment seg, long index) {
+        return (int)HeapFilePageHeader.prevPageId$VH.get(seg.asSlice(index*sizeof()));
+    }
+    public static void prevPageId$set(MemorySegment seg, long index, int x) {
+        HeapFilePageHeader.prevPageId$VH.set(seg.asSlice(index*sizeof()), x);
+    }
+    static final VarHandle nextPageId$VH = $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("nextPageId"));
+    public static VarHandle nextPageId$VH() {
+        return HeapFilePageHeader.nextPageId$VH;
+    }
+    public static int nextPageId$get(MemorySegment seg) {
+        return (int)HeapFilePageHeader.nextPageId$VH.get(seg);
+    }
+    public static void nextPageId$set( MemorySegment seg, int x) {
+        HeapFilePageHeader.nextPageId$VH.set(seg, x);
+    }
+    public static int nextPageId$get(MemorySegment seg, long index) {
+        return (int)HeapFilePageHeader.nextPageId$VH.get(seg.asSlice(index*sizeof()));
+    }
+    public static void nextPageId$set(MemorySegment seg, long index, int x) {
+        HeapFilePageHeader.nextPageId$VH.set(seg.asSlice(index*sizeof()), x);
+    }
+    static final VarHandle freeSpacePointer$VH = $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("freeSpacePointer"));
+    public static VarHandle freeSpacePointer$VH() {
+        return HeapFilePageHeader.freeSpacePointer$VH;
+    }
+    public static int freeSpacePointer$get(MemorySegment seg) {
+        return (int)HeapFilePageHeader.freeSpacePointer$VH.get(seg);
+    }
+    public static void freeSpacePointer$set( MemorySegment seg, int x) {
+        HeapFilePageHeader.freeSpacePointer$VH.set(seg, x);
+    }
+    public static int freeSpacePointer$get(MemorySegment seg, long index) {
+        return (int)HeapFilePageHeader.freeSpacePointer$VH.get(seg.asSlice(index*sizeof()));
+    }
+    public static void freeSpacePointer$set(MemorySegment seg, long index, int x) {
+        HeapFilePageHeader.freeSpacePointer$VH.set(seg.asSlice(index*sizeof()), x);
+    }
+    static final VarHandle tupleCount$VH = $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("tupleCount"));
+    public static VarHandle tupleCount$VH() {
+        return HeapFilePageHeader.tupleCount$VH;
+    }
+    public static int tupleCount$get(MemorySegment seg) {
+        return (int)HeapFilePageHeader.tupleCount$VH.get(seg);
+    }
+    public static void tupleCount$set( MemorySegment seg, int x) {
+        HeapFilePageHeader.tupleCount$VH.set(seg, x);
+    }
+    public static int tupleCount$get(MemorySegment seg, long index) {
+        return (int)HeapFilePageHeader.tupleCount$VH.get(seg.asSlice(index*sizeof()));
+    }
+    public static void tupleCount$set(MemorySegment seg, long index, int x) {
+        HeapFilePageHeader.tupleCount$VH.set(seg.asSlice(index*sizeof()), x);
+    }
+    public static long sizeof() { return $LAYOUT().byteSize(); }
+    public static MemorySegment allocate(SegmentAllocator allocator) { return allocator.allocate($LAYOUT()); }
+    public static MemorySegment allocateArray(int len, SegmentAllocator allocator) {
+        return allocator.allocate(MemoryLayout.sequenceLayout(len, $LAYOUT()));
+    }
+    public static MemorySegment ofAddress(MemoryAddress addr, MemorySession session) { return RuntimeHelper.asArray(addr, $LAYOUT(), 1, session); }
+}
+```
+
+# Resources, Thanks & Acknowledgements
+
+I'd like to thank the folks on the `panama-dev` mailing list that took time to respond to my questions.
+
+I'd also like to thank John Vornee for explaining the alignment rules to me and helping troubleshoot my code [on stackoverflow](https://stackoverflow.com/a/73431044/13485494)
+
+- [My panama-dev mailing list discussion: "ByteBuffer vs MemorySegment for..."](https://mail.openjdk.org/pipermail/panama-dev/2022-August/017433.html)
+- [YouTube: ByteBuffers are dead, long live ByteBuffers!](https://www.youtube.com/watch?v=RYrk4wvar6g)
+
+# Future Discussion
+
+This post hardly scratches the surface of the Foreign Memory API
+
+Writing a DB involves managing memory allocation and a buffer pool.
+
+There are some incredibly nifty tools in the Foreign Memory API, like the `SegmentAllocator` interface and it's arena-allocation methods
+
+- [`SegmentAllocator`JavaDocs](https://download.java.net/java/early_access/loom/docs/api/jdk.incubator.foreign/jdk/incubator/foreign/SegmentAllocator.html)
+- [`SegmentAllocator.newNativeArena()` JavaDocs](<https://download.java.net/java/early_access/loom/docs/api/jdk.incubator.foreign/jdk/incubator/foreign/SegmentAllocator.html#newNativeArena(long,long,jdk.incubator.foreign.ResourceScope)>)
+
+I think it'd be interesting to do a follow-up post on the implementation of a buffer pool and memory-management strategies with the Foreign Memory methods, but I've got to figure that all out first.
