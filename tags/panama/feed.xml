@@ -8,7 +8,7 @@
       <managingEditor>ray.gavin97@gmail.com (Gavin Ray)</managingEditor>
       <webMaster>ray.gavin97@gmail.com (Gavin Ray)</webMaster>
       <lastBuildDate>Sat, 03 Sep 2022 00:00:00 GMT</lastBuildDate>
-      <atom:link href="https://tailwind-nextjs-starter-blog.vercel.app/tags/jvm/feed.xml" rel="self" type="application/rss+xml"/>
+      <atom:link href="https://tailwind-nextjs-starter-blog.vercel.app/tags/panama/feed.xml" rel="self" type="application/rss+xml"/>
       
   <item>
     <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/panama-not-so-foreign-memory</guid>
@@ -18,16 +18,6 @@
     <pubDate>Sat, 03 Sep 2022 00:00:00 GMT</pubDate>
     <author>ray.gavin97@gmail.com (Gavin Ray)</author>
     <category>java</category><category>jvm</category><category>foreign-memory</category><category>panama</category>
-  </item>
-
-  <item>
-    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/building-query-expression-lang-kotlin-sql-jooq</guid>
-    <title>Building a Query Expression Language in Kotlin, plus dynamic SQL Generation using jOOQ</title>
-    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/building-query-expression-lang-kotlin-sql-jooq</link>
-    <description>A tutorial on building a Query Expression Language/AST in Kotlin and implementing SQL generation</description>
-    <pubDate>Sat, 19 Mar 2022 00:00:00 GMT</pubDate>
-    <author>ray.gavin97@gmail.com (Gavin Ray)</author>
-    <category>kotlin</category><category>sql</category><category>jvm</category><category>query-engines</category><category>jooq</category>
   </item>
 
     </channel>

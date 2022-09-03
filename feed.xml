@@ -7,9 +7,19 @@
       <language>en-us</language>
       <managingEditor>ray.gavin97@gmail.com (Gavin Ray)</managingEditor>
       <webMaster>ray.gavin97@gmail.com (Gavin Ray)</webMaster>
-      <lastBuildDate>Sat, 19 Mar 2022 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Sat, 03 Sep 2022 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://tailwind-nextjs-starter-blog.vercel.app/feed.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/panama-not-so-foreign-memory</guid>
+    <title>Panama: Not-so-Foreign Memory. Using MemorySegment as a high-performance ByteBuffer replacement.</title>
+    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/panama-not-so-foreign-memory</link>
+    <description>An overview of how the Panama Foreign Memory API can be useful outside of foreign/native applications</description>
+    <pubDate>Sat, 03 Sep 2022 00:00:00 GMT</pubDate>
+    <author>ray.gavin97@gmail.com (Gavin Ray)</author>
+    <category>java</category><category>jvm</category><category>foreign-memory</category><category>panama</category>
+  </item>
+
   <item>
     <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/building-query-expression-lang-kotlin-sql-jooq</guid>
     <title>Building a Query Expression Language in Kotlin, plus dynamic SQL Generation using jOOQ</title>
