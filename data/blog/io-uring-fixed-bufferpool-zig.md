@@ -30,6 +30,12 @@ I chose Zig to implement this because:
 
 [Incidentally, the author of said API is the founder of TigerBeetle DB.](https://news.ycombinator.com/item?id=33193229)
 
+_**DISCLAIMER**_:
+
+- I am not an expert on Zig, nor `io_uring`, nor databases. This is a learning project for me, and I'm sharing it in the hopes that it will be useful to others.
+- The disk manager & buffer pool implementations in this post do not implement critical sections/locking, so they are not thread-safe.
+  - They are also incomplete implementations. Only enough to showcase somewhat-realistic use of `io_uring`'s fixed-buffer mode in a database context was written.
+
 # What the hell is a buffer pool?
 
 A database buffer pool is essentially a cache of database pages (chunks of fixed-size bytes). When a database page is requested, it is first checked if it is already in the buffer pool. If it is, then the page is returned immediately. If it is not, then the page is read from disk and added to the buffer pool. If the buffer pool is full, then a page is evicted from the buffer pool to make room for the new page.
@@ -40,7 +46,7 @@ The buffer pool is a critical component of a database. It is responsible for red
 
 The traditional way to architect a buffer pool is to have it function similar to an arena allocator. A fixed amount of memory is allocated up-front when the buffer pool is created, and when reading/writing pages to disk, pointers/references to fixed-size chunks of that memory are passed to the disk manager. The disk manager then reads/writes the pages to disk, and the buffer pool is responsible for updating the page's metadata (e.g. dirty bit, reference count, etc).
 
-When the disk manager performs I/O operations, these generally block the calling thread. This means that the buffer pool must be able to handle multiple I/O operations at the same time. This is usually done by having a thread pool that is responsible for performing the I/O operations. The buffer pool then passes the I/O operations to the thread pool, and the thread pool is responsible for performing the I/O operations and notifying the buffer pool when the I/O operations complete.
+When the disk manager performs I/O operations, these generally block the calling thread. This means that if the buffer pool wants to support concurrent I/O operations, then it must offload them to separate threads. This is usually done by having a thread pool that I/O request can be submitted to.
 
 This architecture is simple and easy to understand, but it has a few drawbacks:
 
