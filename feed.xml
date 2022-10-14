@@ -7,9 +7,19 @@
       <language>en-us</language>
       <managingEditor>ray.gavin97@gmail.com (Gavin Ray)</managingEditor>
       <webMaster>ray.gavin97@gmail.com (Gavin Ray)</webMaster>
-      <lastBuildDate>Sat, 03 Sep 2022 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Fri, 14 Oct 2022 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://tailwind-nextjs-starter-blog.vercel.app/feed.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/io-uring-fixed-bufferpool-zig</guid>
+    <title>Building a high-performance database buffer pool in Zig using io_uring&#39;s new fixed-buffer mode</title>
+    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/io-uring-fixed-bufferpool-zig</link>
+    <description>In this post, we will explore how to build a high-performance database buffer pool in Zig using io_uring&#39;s new fixed-buffer mode.</description>
+    <pubDate>Fri, 14 Oct 2022 00:00:00 GMT</pubDate>
+    <author>ray.gavin97@gmail.com (Gavin Ray)</author>
+    <category>database</category><category>zig</category><category>io_uring</category><category>performance</category><category>linux</category>
+  </item>
+
   <item>
     <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/panama-not-so-foreign-memory</guid>
     <title>Panama: Not-so-Foreign Memory. Using MemorySegment as a high-performance ByteBuffer replacement.</title>
