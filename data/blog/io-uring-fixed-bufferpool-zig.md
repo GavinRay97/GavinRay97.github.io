@@ -4,7 +4,7 @@ date: '2022-10-14'
 tags: ['database', 'zig', 'io_uring', 'performance', 'linux']
 draft: false
 summary: "In this post, we will explore how to build a high-performance database buffer pool in Zig using io_uring's new fixed-buffer mode."
-images: []
+images: ['/static/images/io_uring_zig_logo.png)']
 ---
 
 <TOCInline toc={props.toc} indentDepth={2} asDisclosure />
@@ -12,6 +12,8 @@ images: []
 ---
 
 # Preface
+
+> Credit for [OpenGraph images](/static/images/io_uring_zig_logo.png) goes to [Unixism](https://unixism.net/loti/) and the [Zig Foundation](https://github.com/ziglang/logo).
 
 A few days ago, I had a shower thought:
 
@@ -36,13 +38,13 @@ _**DISCLAIMER**_:
 - The disk manager & buffer pool implementations in this post do not implement critical sections/locking, so they are not thread-safe.
   - They are also incomplete implementations. Only enough to showcase somewhat-realistic use of `io_uring`'s fixed-buffer mode in a database context was written.
 
-# What the hell is a buffer pool?
+# What is a buffer pool?
 
 A database buffer pool is essentially a cache of database pages (chunks of fixed-size bytes). When a database page is requested, it is first checked if it is already in the buffer pool. If it is, then the page is returned immediately. If it is not, then the page is read from disk and added to the buffer pool. If the buffer pool is full, then a page is evicted from the buffer pool to make room for the new page.
 
 The buffer pool is a critical component of a database. It is responsible for reducing the number of disk reads and writes. It also reduces the amount of memory required to store the database pages. In this post, we will explore how to build a high-performance buffer pool in Zig using `io_uring`'s new fixed-buffer mode.
 
-# So how are they usually built?
+# How are they usually built?
 
 The traditional way to architect a buffer pool is to have it function similar to an arena allocator. A fixed amount of memory is allocated up-front when the buffer pool is created, and when reading/writing pages to disk, pointers/references to fixed-size chunks of that memory are passed to the disk manager. The disk manager then reads/writes the pages to disk, and the buffer pool is responsible for updating the page's metadata (e.g. dirty bit, reference count, etc).
 
@@ -54,7 +56,7 @@ This architecture is simple and easy to understand, but it has a few drawbacks:
 - There is non-insignificant overhead in spawning OS threads
 - The buffer pool has to explicitly pass pointers to the pages to the disk manager, which means that the buffer pool must keep track of the page's location in memory.
 
-# Tossing io_uring in the mix
+# Getting `io_uring` involved
 
 The primary appeal of `io_uring` is that it allows applications to submit I/O requests to the kernel asynchronously, and receive completion events for those requests. This doesn't make reading/writing pages to disk necessarily faster, but it does increase potential I/O throughput by allowing the buffer pool to submit multiple I/O requests to the kernel at the same time.
 
@@ -81,19 +83,29 @@ As it turns out, some very smart people have recently done this. See the TUM pap
 
 That last bit is a topic for another, much longer post. For now, we will focus on the first two points.
 
-# Holy shit this is so much text just show me the code
+# Show me the code!
 
-Ok, fine. Here's the code:
-
-We'll start with the Disk Manager, because you need that bit first and it's where the `io_uring` meat is.
+We'll start with the Disk Manager, because you need it first and it's where the `io_uring` functionality is used.
 
 ## Disk Manager Implementation
 
-```zig
-const std = @import("std");
+We'll start with some constants to declare a page size and the number of pages in the buffer pool:
 
+```zig
 const PAGE_SIZE = 4096;
 const BUFFER_POOL_NUM_PAGES = 1000;
+```
+
+Next, we'll define a struct to encapsulate the behavior of a disk manager.=
+We need three things here:
+
+- A `std.fs.File` to read/write from
+- An `io_uring` ring instance, with fixed-buffer mode enabled
+- The pages/buffers that we will use for I/O operations (to be shared with the buffer pool later)
+- An array of `iovec` structs, to hold pointers to the buffer pool pages (these are the "fixed-buffers" that we'll be using)
+
+```zig
+const std = @import("std");
 
 const IoUringDiskManager = struct {
     file: std.fs.File,
@@ -101,6 +113,20 @@ const IoUringDiskManager = struct {
     // iovec array filled with pointers to buffers from the buffer pool.
     // These are registered with the io_uring and used for reads and writes.
     iovec_buffers: []std.os.iovec,
+
+    // ...
+};
+```
+
+Next, we'll define a function to initialize the disk manager. This function will:
+
+- Spawn and configure an `io_uring` instance with a queue depth of 1024 to benefit from the fixed-buffer mode
+- Allocate the `iovec` array, and fill it with pointers to the buffer pool pages
+- Register the `iovec` array with the `io_uring` instance
+
+```zig
+const IoUringDiskManager = struct {
+    // ...
 
     const Self = @This();
 
@@ -131,6 +157,19 @@ const IoUringDiskManager = struct {
         self.io_uring.deinit();
         self.file.close();
     }
+};
+```
+
+Finally, we'll define two functions to read and write pages to disk.
+Breaking down what's going on here:
+
+- The implementation of `read_page` and `write_page` delegate to the `io_uring` fixed-buffer read/write functionality
+  - These queue but do not submit the requests
+  - We want to retain the ability to submit them ourselves, in case we want to batch, link, or otherwise manipulate the requests
+
+```zig
+const IoUringDiskManager = struct {
+    // ...
 
     pub fn read_page(self: *Self, frame_index: usize) !void {
         std.debug.print("[IoUringDiskManager] read_page: frame_index={}\n", .{frame_index});
@@ -154,7 +193,35 @@ const IoUringDiskManager = struct {
         _ = try self.io_uring.submit();
     }
 };
+```
 
+Here's the definition of `read_fixed` from `std/os/linux/io_uring.zig`.
+You can extrapolate this for `write_fixed` and `readv/writev_fixed`:
+
+```zig
+/// Queues (but does not submit) an SQE to perform a IORING_OP_READ_FIXED.
+/// The `buffer` provided must be registered with the kernel by calling `register_buffers` first.
+/// The `buffer_index` must be the same as its index in the array provided to `register_buffers`.
+///
+/// Returns a pointer to the SQE so that you can further modify the SQE for advanced use cases.
+pub fn read_fixed(
+    self: *IO_Uring,
+    user_data: u64,
+    fd: os.fd_t,
+    buffer: *os.iovec,
+    offset: u64,
+    buffer_index: u16,
+) !*linux.io_uring_sqe {
+    const sqe = try self.get_sqe();
+    io_uring_prep_read_fixed(sqe, fd, buffer, offset, buffer_index);
+    sqe.user_data = user_data;
+    return sqe;
+}
+```
+
+To wrap up, we can write a simple test to read and write a page to disk:
+
+```zig
 test "io_uring disk manager" {
     const file = try std.fs.cwd().createFile("test.db", .{ .truncate = true, .read = true });
     defer file.close();
@@ -180,43 +247,16 @@ test "io_uring disk manager" {
 }
 ```
 
-Breaking down what's going on here:
-
-- We have a struct, `IoUringDiskManager`, that wraps a `std.fs.File` and an `std.os.linux.IO_Uring` instance.
-  - When we initialize it, we create the `IO_Uring` instance and register the buffer pool buffers with it.
-  - The `io_uring` queue depth is set to 1024 (the maximum the kernel allows is 4096).
-  - The `io_uring` setup flags are set to 0, which means that we are using the default setup flags.
-- The implementation of `read_page` and `write_page` delegate to the `io_uring` fixed-buffer read/write functionality
-  - These queue but do not submit the requests
-  - We want to retain the ability to submit them ourselves, in case we want to batch, link, or otherwise manipulate the requests
-
-Here's the definition of `read_fixed` from `std/os/linux/io_uring.zig`.
-You can extrapolate this for `write_fixed` and `readv_fixed` and `writev_fixed`:
-
-```zig
-/// Queues (but does not submit) an SQE to perform a IORING_OP_READ_FIXED.
-/// The `buffer` provided must be registered with the kernel by calling `register_buffers` first.
-/// The `buffer_index` must be the same as its index in the array provided to `register_buffers`.
-///
-/// Returns a pointer to the SQE so that you can further modify the SQE for advanced use cases.
-pub fn read_fixed(
-    self: *IO_Uring,
-    user_data: u64,
-    fd: os.fd_t,
-    buffer: *os.iovec,
-    offset: u64,
-    buffer_index: u16,
-) !*linux.io_uring_sqe {
-    const sqe = try self.get_sqe();
-    io_uring_prep_read_fixed(sqe, fd, buffer, offset, buffer_index);
-    sqe.user_data = user_data;
-    return sqe;
-}
-```
-
 Finally, let's build the buffer pool on top of this.
 
 ## Buffer Pool Manager Implementation
+
+Our buffer pool manager will hold a few pieces of state:
+
+- A pointer to the disk manager (to read/write pages to disk which are not in memory)
+- A pointer to the buffer pool frames, where we'll store our pages
+- A mapping from a logical page ID to a physical frame ID (the "page table")
+- A list of frame indices which don't have any pages in them/are "free" (the "free list")
 
 ```zig
 pub const IoUringBufferPoolManager = struct {
@@ -228,7 +268,17 @@ pub const IoUringBufferPoolManager = struct {
     page_id_to_frame_map: std.AutoHashMap(u32, usize),
     // Free list is a list of free frames in the buffer pool
     free_list: std.ArrayList(usize),
+};
+```
 
+When we initialize a buffer pool manager instance, we want to do two things:
+
+- Initialize the free list and page table. We'll also resize them to `BUFFER_POOL_NUM_PAGES` to avoid reallocations.
+- Add every frame index to the free list. All frames are free at the start.
+
+```zig
+pub const IoUringBufferPoolManager = struct {
+    // ...
     const Self = @This();
 
     pub fn init(frames: *[BUFFER_POOL_NUM_PAGES][PAGE_SIZE]u8, disk_manager: *IoUringDiskManager) !Self {
@@ -259,17 +309,24 @@ pub const IoUringBufferPoolManager = struct {
         self.page_id_to_frame_map.deinit();
         self.free_list.deinit();
     }
+```
+
+The minimum functionality we need to test our implementation are:
+
+- A `get_page` function which will read a page from disk if it's not in memory
+- A `flush_page` function which will write a frame to disk
+
+```zig
+pub const IoUringBufferPoolManager = struct {
+    // ...
+    const Self = @This();
 
     pub fn get_page(self: *Self, page_id: u32) !*[PAGE_SIZE]u8 {
-        std.debug.print("[IoUringBPM] get_page: page_id={}\n", .{page_id});
-
         // If the page is already in the buffer pool, return it.
         if (self.page_id_to_frame_map.contains(page_id)) {
-            std.debug.print("[IoUringBPM] get_page: page_id={} is already in the buffer pool\n", .{page_id});
             const frame_index = self.page_id_to_frame_map.get(page_id).?;
             return &self.frames[frame_index];
         }
-        std.debug.print("[IoUringBPM] get_page: page_id={} is not in the buffer pool\n", .{page_id});
 
         // Check if there are any free pages in the buffer pool.
         if (self.free_list.items.len == 0) {
@@ -281,10 +338,8 @@ pub const IoUringBufferPoolManager = struct {
         const frame_index = self.free_list.pop();
         try self.disk_manager.read_page(frame_index);
         _ = try self.disk_manager.io_uring.submit_and_wait(1);
-        std.debug.print("[IoUringBPM] get_page: page_id={} read from disk\n", .{page_id});
 
         // Add the page to the page table.
-        std.debug.print("[IoUringBPM] get_page: page_id={} added to page table at frame_index={}\n", .{ page_id, frame_index });
         self.page_id_to_frame_map.put(page_id, frame_index) catch unreachable;
 
         // Return the page.
@@ -299,7 +354,11 @@ pub const IoUringBufferPoolManager = struct {
         }
     }
 };
+```
 
+We can now write the grand-finale test to verify that our buffer pool and disk manager work together.
+
+```zig
 test "io_uring buffer pool manager" {
     const file = try std.fs.cwd().createFile("test.db", .{ .truncate = true, .read = true });
     defer file.close();
@@ -329,3 +388,30 @@ test "io_uring buffer pool manager" {
     try std.testing.expectEqualSlices(u8, &[_]u8{0x42}, updated_frame_buffer[0..1]);
 }
 ```
+
+# Conclusion
+
+If you've gotten this far, thank you for reading! I hope you enjoyed this post and learned something new. I'm bullish on the future of `io_uring` and its increasing use in popular software. I'm excited to see what comes next, and hopefully now you are too!
+
+This post is the first in what (I intend to be) several on `io_uring`, specifically around real-world use cases and performance. If you have any questions or comments, please feel free to reach out to me on Twitter or via email. I'd love to hear from you!
+
+If this post contains errors, mistakes, misinformation, or poor-practices, please bring them to attention. I'd be surprised if there weren't any.
+
+# References
+
+- [Unixism - Lord of the io_uring (HIGHLY RECOMMENDED)](https://unixism.net/loti/)
+- [Unixism - Lord of the io_uring - Fixed Buffers Tutorial](https://unixism.net/loti/tutorial/fixed_buffers.html)
+- [Efficient IO with io_uring](https://kernel.dk/io_uring.pdf)
+- [What's new with io_uring (2022)](https://kernel.dk/axboe-kr2022.pdf)
+- [liburing manpages (1)](https://man.archlinux.org/listing/extra/liburing/)
+- [liburing manpages (2)](https://www.mankier.com/package/liburing-devel)
+- [Cloudflare Missing Manuals: io_uring worker pool](https://blog.cloudflare.com/missing-manuals-io_uring-worker-pool/)
+- [IO_uring Fixed Buffer Versus Non-Fixed Buffer Performance Comparison on NVMe](https://00pauln00.medium.com/io-uring-fixed-buffer-versus-non-fixed-buffer-performance-comparison-9fd506de6829)
+
+# Thanks & Appreciation
+
+I'd like to thank the following people for their help and feedback on this post:
+
+- [Phil Eaton](https://twitter.com/phil_eaton), for reviewing the draft and providing feedback.
+- [The Zig Discord community](https://discord.gg/zig), for answering many questions. I owe them a great debt.
+- [Ilya Korennoy](https://github.com/ikorennoy/jasyncfio/issues/64#issuecomment-1274301605) for taking the time to field my io_uring questions.
