@@ -4,7 +4,7 @@ date: '2022-10-14'
 tags: ['database', 'zig', 'io_uring', 'performance', 'linux']
 draft: false
 summary: "In this post, we will explore how to build a high-performance database buffer pool in Zig using io_uring's new fixed-buffer mode."
-images: ['/static/images/io_uring_zig_logo.png)']
+images: ['/static/images/io_uring_zig_logo.png']
 ---
 
 <TOCInline toc={props.toc} indentDepth={2} asDisclosure />
