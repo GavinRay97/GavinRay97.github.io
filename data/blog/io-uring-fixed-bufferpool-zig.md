@@ -415,3 +415,7 @@ I'd like to thank the following people for their help and feedback on this post:
 - [Phil Eaton](https://twitter.com/phil_eaton), for reviewing the draft and providing feedback.
 - [The Zig Discord community](https://discord.gg/zig), for answering many questions. I owe them a great debt.
 - [Ilya Korennoy](https://github.com/ikorennoy/jasyncfio/issues/64#issuecomment-1274301605) for taking the time to field my io_uring questions.
+
+# Errata
+
+- I was corrected by Jens Axboe themself that fixed-buffer functionality has been available in `io_uring` for [quite some time](https://twitter.com/axboe/status/1581392910687567873?t=gx_tQCEwL0Kh_OfO1QEBow&s=19). I mistakenly thought they were part of the 5.19 changes for ["provided (ring) buffers"](https://lwn.net/Articles/893121/).
