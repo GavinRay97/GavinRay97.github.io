@@ -1,88 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://tailwind-nextjs-starter-blog.vercel.app/about</loc>
+    <loc>https://gavinray97.github.io/about</loc>
   </url>
 
   <url>
-    <loc>https://tailwind-nextjs-starter-blog.vercel.app/blog</loc>
+    <loc>https://gavinray97.github.io/blog</loc>
   </url>
 
   <url>
-    <loc>https://tailwind-nextjs-starter-blog.vercel.app</loc>
+    <loc>https://gavinray97.github.io</loc>
   </url>
 
   <url>
-    <loc>https://tailwind-nextjs-starter-blog.vercel.app/projects</loc>
+    <loc>https://gavinray97.github.io/projects</loc>
   </url>
 
   <url>
-    <loc>https://tailwind-nextjs-starter-blog.vercel.app/tags</loc>
+    <loc>https://gavinray97.github.io/tags</loc>
   </url>
 
   <url>
-    <loc
-      >https://tailwind-nextjs-starter-blog.vercel.app/blog/building-query-expression-lang-kotlin-sql-jooq</loc
-    >
+    <loc>https://gavinray97.github.io/blog/building-query-expression-lang-kotlin-sql-jooq</loc>
   </url>
 
   <url>
-    <loc>https://tailwind-nextjs-starter-blog.vercel.app/blog/panama-not-so-foreign-memory</loc>
+    <loc>https://gavinray97.github.io/blog/panama-not-so-foreign-memory</loc>
   </url>
 
   <url>
-    <loc>https://tailwind-nextjs-starter-blog.vercel.app/blog/io-uring-fixed-bufferpool-zig</loc>
+    <loc>https://gavinray97.github.io/blog/io-uring-fixed-bufferpool-zig</loc>
   </url>
 
   <url>
-    <loc>https://tailwind-nextjs-starter-blog.vercel.app/tags/database</loc>
+    <loc>https://gavinray97.github.io/tags/database</loc>
   </url>
 
   <url>
-    <loc>https://tailwind-nextjs-starter-blog.vercel.app/tags/foreign-memory</loc>
+    <loc>https://gavinray97.github.io/tags/foreign-memory</loc>
   </url>
 
   <url>
-    <loc>https://tailwind-nextjs-starter-blog.vercel.app/tags/io_uring</loc>
+    <loc>https://gavinray97.github.io/tags/io_uring</loc>
   </url>
 
   <url>
-    <loc>https://tailwind-nextjs-starter-blog.vercel.app/tags/java</loc>
+    <loc>https://gavinray97.github.io/tags/java</loc>
   </url>
 
   <url>
-    <loc>https://tailwind-nextjs-starter-blog.vercel.app/tags/jooq</loc>
+    <loc>https://gavinray97.github.io/tags/jooq</loc>
   </url>
 
   <url>
-    <loc>https://tailwind-nextjs-starter-blog.vercel.app/tags/jvm</loc>
+    <loc>https://gavinray97.github.io/tags/jvm</loc>
   </url>
 
   <url>
-    <loc>https://tailwind-nextjs-starter-blog.vercel.app/tags/kotlin</loc>
+    <loc>https://gavinray97.github.io/tags/kotlin</loc>
   </url>
 
   <url>
-    <loc>https://tailwind-nextjs-starter-blog.vercel.app/tags/linux</loc>
+    <loc>https://gavinray97.github.io/tags/panama</loc>
   </url>
 
   <url>
-    <loc>https://tailwind-nextjs-starter-blog.vercel.app/tags/panama</loc>
+    <loc>https://gavinray97.github.io/tags/linux</loc>
   </url>
 
   <url>
-    <loc>https://tailwind-nextjs-starter-blog.vercel.app/tags/performance</loc>
+    <loc>https://gavinray97.github.io/tags/performance</loc>
   </url>
 
   <url>
-    <loc>https://tailwind-nextjs-starter-blog.vercel.app/tags/query-engines</loc>
+    <loc>https://gavinray97.github.io/tags/query-engines</loc>
   </url>
 
   <url>
-    <loc>https://tailwind-nextjs-starter-blog.vercel.app/tags/sql</loc>
+    <loc>https://gavinray97.github.io/tags/sql</loc>
   </url>
 
   <url>
-    <loc>https://tailwind-nextjs-starter-blog.vercel.app/tags/zig</loc>
+    <loc>https://gavinray97.github.io/tags/zig</loc>
   </url>
 </urlset>
