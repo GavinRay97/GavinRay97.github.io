@@ -60,7 +60,9 @@ This architecture is simple and easy to understand, but it has a few drawbacks:
 
 The primary appeal of `io_uring` is that it allows applications to submit I/O requests to the kernel asynchronously, and receive completion events for those requests. This doesn't make reading/writing pages to disk necessarily faster, but it does increase potential I/O throughput by allowing the buffer pool to submit multiple I/O requests to the kernel at the same time.
 
-One of the more recent features of `io_uring` is the ability to pre-allocate and register a pool of buffers to use for I/O operations. This means that the buffer pool can pre-allocate a pool of memory, and then register that memory with `io_uring`. When the buffer pool wants to read/write a page to disk, it can simply pass the index to a buffer in the pool to the disk manager. The disk manager can then perform the I/O operation using that buffer, and the buffer pool will (optionally) receive a completion event when the I/O operation completes.
+One of the ~~more recent~~ [0] features of `io_uring` is the ability to pre-allocate and register a pool of buffers to use for I/O operations. This means that the buffer pool can pre-allocate a pool of memory, and then register that memory with `io_uring`. When the buffer pool wants to read/write a page to disk, it can simply pass the index to a buffer in the pool to the disk manager. The disk manager can then perform the I/O operation using that buffer, and the buffer pool will (optionally) receive a completion event when the I/O operation completes.
+
+> [0]: It was pointed out that this feature is not recent. See #Errata for more details.
 
 - https://unixism.net/loti/tutorial/fixed_buffers.html
 
