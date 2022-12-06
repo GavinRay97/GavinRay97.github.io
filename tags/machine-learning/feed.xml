@@ -1,0 +1,24 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>Gavin Ray Blog</title>
+      <link>https://gavinray97.github.io/blog</link>
+      <description></description>
+      <language>en-us</language>
+      <managingEditor>ray.gavin97@gmail.com (Gavin Ray)</managingEditor>
+      <webMaster>ray.gavin97@gmail.com (Gavin Ray)</webMaster>
+      <lastBuildDate>Mon, 05 Dec 2022 00:00:00 GMT</lastBuildDate>
+      <atom:link href="https://gavinray97.github.io/tags/machine-learning/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://gavinray97.github.io/blog/a-day-without-a-copilot</guid>
+    <title>A Day Without a Copilot: Reflections on Copilot-Driven Development</title>
+    <link>https://gavinray97.github.io/blog/a-day-without-a-copilot</link>
+    <description>A reflection on the impact of language models like Github Copilot on the experience on authoring software and the role of the developer</description>
+    <pubDate>Mon, 05 Dec 2022 00:00:00 GMT</pubDate>
+    <author>ray.gavin97@gmail.com (Gavin Ray)</author>
+    <category>github-copilot</category><category>machine-learning</category><category>non-technical</category>
+  </item>
+
+    </channel>
+  </rss>

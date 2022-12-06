@@ -7,9 +7,19 @@
       <language>en-us</language>
       <managingEditor>ray.gavin97@gmail.com (Gavin Ray)</managingEditor>
       <webMaster>ray.gavin97@gmail.com (Gavin Ray)</webMaster>
-      <lastBuildDate>Fri, 14 Oct 2022 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Mon, 05 Dec 2022 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://gavinray97.github.io/feed.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://gavinray97.github.io/blog/a-day-without-a-copilot</guid>
+    <title>A Day Without a Copilot: Reflections on Copilot-Driven Development</title>
+    <link>https://gavinray97.github.io/blog/a-day-without-a-copilot</link>
+    <description>A reflection on the impact of language models like Github Copilot on the experience on authoring software and the role of the developer</description>
+    <pubDate>Mon, 05 Dec 2022 00:00:00 GMT</pubDate>
+    <author>ray.gavin97@gmail.com (Gavin Ray)</author>
+    <category>github-copilot</category><category>machine-learning</category><category>non-technical</category>
+  </item>
+
   <item>
     <guid>https://gavinray97.github.io/blog/io-uring-fixed-bufferpool-zig</guid>
     <title>Building a high-performance database buffer pool in Zig using io_uring&#39;s new fixed-buffer mode</title>
