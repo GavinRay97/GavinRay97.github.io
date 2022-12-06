@@ -1,0 +1,114 @@
+---
+title: 'A Day Without a Copilot: Reflections on Copilot-Driven Development'
+date: '2022-12-05'
+tags: ['github-copilot', 'machine-learning', 'non-technical']
+draft: false
+summary: 'A reflection on the impact of language models like Github Copilot on the experience on authoring software and the role of the developer'
+images:
+  [
+    'https://camo.githubusercontent.com/b22c603c99f2733ff060b01d4b184a2504e3f4b089cd8a8b113884f7b85a4782/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f70726163746963616c6465762f696d6167652f66657463682f732d2d70454d3650587a582d2d2f635f696d616767615f7363616c652c665f6175746f2c666c5f70726f67726573736976652c685f3432302c715f6175746f2c775f313030302f68747470733a2f2f6465762d746f2d75706c6f6164732e73332e616d617a6f6e6177732e636f6d2f75706c6f6164732f61727469636c65732f36336d347072357a6e7a667172716c776e33396b2e706e67',
+  ]
+---
+
+<TOCInline toc={props.toc} indentDepth={2} asDisclosure />
+
+---
+
+# Introduction
+
+On Thanksgiving eve, a miracle happened: All across the world, users found they had been locked out of Copilot. For many of us, this marked the first time since the Technical Preview that we had been coding "in the raw". For me, that day was 07/01/21 -- nearly 1.5 years! (Wow, time flies.)
+
+<img src="/static/images/copilot-technical-preview-invite-email.png" />
+
+For a long time, I've been thinking about how profound of an impact Github Copilot has had on my development process and experience. Going without it for a day was a great opportunity to reflect on that impact and to try to articulate it.
+
+(And in the wake of the popularity of ChatGPT, how could I resist the urge to post this?)
+
+# From Monologue to Dialogue
+
+I take great joy in the solitude of coding. I love the feeling of being alone with my thoughts, my code, and my computer. The feeling of being in the zone, of being able to focus on the task at hand without distraction. Of thinking through a problem, working towards a solution, and seeing it through to completion. I love the feeling of being able to do all of this uninterrupted.
+
+But I also love being able to bounce ideas off of other people, to share my thoughts and my ideas. Being able to collaborate and learn from others. Unfortunately, it is simultaneously draining (for me) to do this. As an introvert, it takes some amount of energy to engage with others. And software being a complex field, it takes a _lot_ of energy to do so in a _meaningful_ way.
+
+Github Copilot has been a game-changer for me in this regard. It has allowed me to have the best of both worlds: the solitude of coding, and the collaboration of bouncing ideas off of others. It has allowed me to have a dialogue with my code, to have a conversation with my computer. To have a conversation with the collective wisdom of the world -- a conversation that I can have without having to expend any energy.
+
+Rather than a solo endeavor, a one-way flow of information and output:
+
+```
+My brain -> Editor
+```
+
+Coding has become a collaborative dialogue between myself and Copilot. It is like spinning pottery -- we shape the output provided by each other by strokes until it reaches its eventual form.
+
+```
+My brain <--> Editor <--> Copilot
+```
+
+It starts as a rough lump of clay.
+
+```c
+struct RecordID
+HeapPage_insert_record(struct HeapPage* page, const char* record, uint32_t record_length);
+```
+
+And slowly we refine it, by critique and suggestion, until it fully takes shape.
+
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/NN0tBWAh19s"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen;"
+  allowfullscreen
+></iframe>
+## Fresh Perspectives
+
+One of the most valuable aspects of this dialogue is the fresh perspective that Copilot provides.
+
+Frequently, Copilot will suggest API designs or implementation details that I would never have considered. It will suggest a different way of thinking about a problem, or a different way of solving it.
+
+Not all of these suggestions are good. Some are downright terrible. But many are good, and a few are great. Even the bad ones are often useful, in that they help me to think about the problem in a different way. (I.E. "I hadn't thought of that, but now that I have, I know to consciously avoid it.")
+
+Now, when designing or implementing an API, I like to generate several sets of Copilot suggestions based on the specs (4-5 rounds of 10 suggestions) first. This helps me to get a sense of the different ways that people might approach the problem. I'll manually copy over some of the best candidates when generating and pick bits and pieces from them, along with tweaks, to create the final implementation.
+
+> NOTE: These suggestions are very sensitive to variable naming, for example the `mk` prefix common in Functional Programming languages, or the `Factory`/`Impl` suffixes common in OO languages. See the "Copilot-Driven Development" section below for more dialogue this.
+
+# Copilot-Driven Development
+
+There's a phenomenon that I've noticed in my own development process that I call "Copilot-Driven Development".
+
+It's a process that I've been using for a while now, whereby I do a number of things to optimize for Copilot's suggestions/accuracy.
+
+## Copilot-Driven Development: Methododology
+
+1. Choose a popular programming language (e.g. Python, Java, C++, etc.)
+2. Choose well-known libraries and frameworks (e.g. React, Django, Spring, etc.)
+3. Use explicit names, erring on the side of overly-verbose (e.g. `ensureUserIsLoggedIn()` instead of `euil()`)
+4. Use explicit types and type-aliases/opaque-types (e.g. `type UserID = int` instead of `int`, `uint32_t` instead of `int`)
+5. Write types, interfaces, and abstract classes with specifications and documentation plus invariants/assertions first, then the implementations
+6. Implement tests alongside each implementation
+7. Shove as much code into a single file as possible during early development, so that Copilot can see the whole picture
+   - Copilot devs told me [in an AMA](https://github.com/orgs/community/discussions/29932#discussioncomment-3473154) that Copilot can read other open tabs as well, but from experience I've found that it is much more effective to have everything in a single file
+
+I've found that this process leads to a very high rate of Copilot success -- in my experience, Copilot is able to suggest a good implementation for most problems that I throw at it.
+
+## Copilot-Driven Development: Outcomes
+
+I often use Copilot's suggestions to guide my development process, to help me think about problems in different ways, and to help me make better decisions.
+
+For example, when I'm designing an API, I'll often use Copilot to generate a bunch of different suggestions for me to consider. I'll then go through those suggestions and use them as a starting point for my own design. I'll pick out the bits that I like, that make sense to me, and that fit my vision for the API. I'll then tweak those bits and pieces, and combine them into a cohesive whole.
+
+This process is incredibly helpful for me, because it allows me to see the problem from different perspectives. It allows me to gain insights that I might not have had on my own. It also allows me to learn from the collective wisdom of the community, which is something that I value immensely.
+
+One of the key benefits of this process is that it allows me to be more efficient. Because I'm not starting from scratch every time, I can iterate faster and produce better code more quickly. It also allows me to be more confident in my decisions, because I know that I've considered a wide range of options before making a choice.
+
+# Evolving Roles in Software Development
+
+The use of tools like Github Copilot and ChatGPT highlights a shift in the role of the software developer. Rather than being solely responsible for every aspect of the development process, developers can now leverage the collective wisdom of the community to improve their work.
+
+This shift is particularly important in the context of modern software development, where the complexity and scale of projects can make it difficult for a single individual to have all the necessary knowledge and expertise. By being able to access the insights and ideas of others, developers can more easily tackle complex problems and build better software.
+
+At the same time, the use of tools like Github Copilot does not diminish the role of the individual. In fact, it can enable them to focus more on the _**creative and strategic aspects of development**_, such as design and architecture, rather than getting bogged down in the details.
+
+Overall, the use of tools like these is helping to redefine the role of the software developer, allowing us to be more effective and efficient in our work, while also allowing us to focus on the most interesting and challenging aspects of the development process.

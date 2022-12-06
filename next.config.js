@@ -8,7 +8,6 @@ const ContentSecurityPolicy = `
   script-src 'self' 'unsafe-eval' 'unsafe-inline' www.youtube.com giscus.app replit.com pl.kotl.in play.kotlinlang.org platform.twitter.com twitter.com;
   style-src 'self' 'unsafe-inline';
   img-src * blob: data:;
-  media-src 'none';
   connect-src *;
   font-src 'self' *;
   frame-src www.youtube.com giscus.app replit.com pl.kotl.in play.kotlinlang.org platform.twitter.com twitter.com
