@@ -1,0 +1,25 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>Gavin Ray Blog</title>
+      <link>https://gavinray97.github.io/blog</link>
+      <description></description>
+      <language>en-us</language>
+      <managingEditor>ray.gavin97@gmail.com (Gavin Ray)</managingEditor>
+      <webMaster>ray.gavin97@gmail.com (Gavin Ray)</webMaster>
+      <lastBuildDate>Sat, 31 Dec 2022 00:00:00 GMT</lastBuildDate>
+      <atom:link href="https://gavinray97.github.io/tags/design-by-contract/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://gavinray97.github.io/blog/adding-invariant-to-cpp-design-by-contract</guid>
+    <title>Adding Design-by-Contract [[invariant]] conditions to C++, via a GCC plugin</title>
+    <link>https://gavinray97.github.io/blog/adding-invariant-to-cpp-design-by-contract</link>
+    <description>Design-by-Contract&#39;s invariant attribute allows you to enforce important properties of systems and data structures, making it an incredibly useful tool for developers. In this blog post, we&#39;ll be exploring the development of a GCC plugin that adds support for [[invariant]] conditions in C++ classes and structs. We&#39;ll also be looking at an example of how invariant can be used to improve the integrity of a Stack data structure. This is especially timely as GCC has recently added support for Contracts, allowing you to annotate functions with pre/post conditions. Don&#39;t miss out on learning how to use this powerful feature in your own projects!
+</description>
+    <pubDate>Sat, 31 Dec 2022 00:00:00 GMT</pubDate>
+    <author>ray.gavin97@gmail.com (Gavin Ray)</author>
+    <category>cpp</category><category>gcc</category><category>design-by-contract</category>
+  </item>
+
+    </channel>
+  </rss>
