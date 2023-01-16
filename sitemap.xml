@@ -41,11 +41,19 @@
   </url>
 
   <url>
+    <loc>https://gavinray97.github.io/blog/postgres-wire-protocol-jdk-21</loc>
+  </url>
+
+  <url>
     <loc>https://gavinray97.github.io/tags/cpp</loc>
   </url>
 
   <url>
     <loc>https://gavinray97.github.io/tags/database</loc>
+  </url>
+
+  <url>
+    <loc>https://gavinray97.github.io/tags/databases</loc>
   </url>
 
   <url>
@@ -70,6 +78,10 @@
 
   <url>
     <loc>https://gavinray97.github.io/tags/java</loc>
+  </url>
+
+  <url>
+    <loc>https://gavinray97.github.io/tags/jdk</loc>
   </url>
 
   <url>
@@ -105,11 +117,23 @@
   </url>
 
   <url>
+    <loc>https://gavinray97.github.io/tags/postgres</loc>
+  </url>
+
+  <url>
     <loc>https://gavinray97.github.io/tags/query-engines</loc>
   </url>
 
   <url>
+    <loc>https://gavinray97.github.io/tags/server</loc>
+  </url>
+
+  <url>
     <loc>https://gavinray97.github.io/tags/sql</loc>
+  </url>
+
+  <url>
+    <loc>https://gavinray97.github.io/tags/wire-protocol</loc>
   </url>
 
   <url>

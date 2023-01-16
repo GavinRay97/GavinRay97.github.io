@@ -1,0 +1,24 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>Gavin Ray Blog</title>
+      <link>https://gavinray97.github.io/blog</link>
+      <description></description>
+      <language>en-us</language>
+      <managingEditor>ray.gavin97@gmail.com (Gavin Ray)</managingEditor>
+      <webMaster>ray.gavin97@gmail.com (Gavin Ray)</webMaster>
+      <lastBuildDate>Mon, 16 Jan 2023 00:00:00 GMT</lastBuildDate>
+      <atom:link href="https://gavinray97.github.io/tags/jdk/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://gavinray97.github.io/blog/postgres-wire-protocol-jdk-21</guid>
+    <title>Building a PostgreSQL Wire Protocol Server using Vanilla, Modern Java 21</title>
+    <link>https://gavinray97.github.io/blog/postgres-wire-protocol-jdk-21</link>
+    <description>&lt; A dual-purpose tutorial to 1) Demonstrate how to implement the Simple Query Protocol, where Java is an implementation detail; 2) Show practical examples of most of the new features since JDK 17, including Records, Sealed Types, Pattern Matching for Switch, Virtual Threads, and Panama Foreign-Function &amp; Memory API.</description>
+    <pubDate>Mon, 16 Jan 2023 00:00:00 GMT</pubDate>
+    <author>ray.gavin97@gmail.com (Gavin Ray)</author>
+    <category>java</category><category>jdk</category><category>jvm</category><category>postgres</category><category>wire-protocol</category><category>databases</category><category>server</category>
+  </item>
+
+    </channel>
+  </rss>
