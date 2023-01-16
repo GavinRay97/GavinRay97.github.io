@@ -23,7 +23,7 @@ This tutorial is meant to serve as a dual purpose guide:
   - Foreign-Function & Memory API (FMM) aka Project Panama (JEP 424)
   - (Also give a practical example of `java.nio`'s `AsynchronousChannelGroup` and `AsynchronousServerSocketChannel`, for which there are few examples online)
 
-## Outline
+# Outline
 
 This tutorial will be broken up into a series of 2 parts:
 
@@ -31,7 +31,7 @@ This tutorial will be broken up into a series of 2 parts:
 
 2. Then, we will refactor our code to be more readable and maintainable.
 
-## Introduction to the PostgreSQL Wire Protocol
+# Introduction to the PostgreSQL Wire Protocol
 
 The PostgreSQL wire protocol is a binary protocol that is used to communicate between a PostgreSQL client and server.
 
@@ -55,11 +55,11 @@ There are many types of commands, but today we'll only be concerned with the **Q
 
 Knowing this, we can now start implementing our server.
 
-## Step 1: Doing The Simplest Thing That Could Possibly Work (TM)
+# Step 1: Doing The Simplest Thing That Could Possibly Work (TM)
 
 We'll begin by implementing a basic `java.nio.channels.AsynchronousServerSocketChannel` server, which will accept connections and print out the messages it receives:
 
-### Step 1.1 - Initial Server Skeleton
+## Step 1.1 - Initial Server Skeleton
 
 Below is the initial skeleton of our server.
 
@@ -81,9 +81,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-// =================================================================================================
-// SERVER
-// =================================================================================================
 class AsynchronousSocketServer {
     private static final String HOST = "localhost";
     private static final int PORT = 5432;
@@ -128,9 +125,6 @@ class AsynchronousSocketServer {
     }
 }
 
-// =================================================================================================
-// MAIN
-// =================================================================================================
 class MainSimplest {
     public static void main(String[] args) throws Exception {
         AsynchronousSocketServer.main(args);
@@ -154,7 +148,7 @@ Note: Recompile with -Xlint:preview for details.
 [SERVER] Listening on localhost:5432
 ```
 
-#### Connecting to the Server with `psql`
+### Connecting to the Server with `psql`
 
 Now, we can connect to our server using `psql`:
 
@@ -172,7 +166,7 @@ We should see `psql` hang at the prompt, and the server should print out the fol
 
 Great! We're now able to receive messages from the client.
 
-### Step 1.2 - Responding to the SSL Negotiation message and the Startup Message
+## Step 1.2 - Responding to the SSL Negotiation message and the Startup Message
 
 What we want to do is just make sure that we're able to receive messages from the client, and respond to the:
 
@@ -317,7 +311,7 @@ READY FOR QUERY type=<IDLE>
 [SERVER] Buffer: java.nio.HeapByteBuffer[pos=0 lim=84 cap=1024]
 ```
 
-### Step 1.3 - Differentiating between the SSL/Authentication request, and Command messages
+## Step 1.3 - Differentiating between the SSL/Authentication request, and Command messages
 
 We need to be able to differentiate between the SSL Negotiation message, the Authentication request, and the standard command messages.
 
@@ -409,7 +403,7 @@ If we re-start and reconnect with `psql`, we should now see:
 [SERVER] Write result: 6
 ```
 
-### Step 1.4 - Handle a query and return data rows
+## Step 1.4 - Handle a query and return data rows
 
 Now, the moment you've likely all been waiting for. Let's handle a query and return some data rows.
 
@@ -622,7 +616,7 @@ READY FOR QUERY type=<IDLE>
 [SERVER] Write result: 6
 ```
 
-## Step 2: Refactoring
+# Step 2: Refactoring
 
 Now that we have a working server, we can start refactoring the code to make it more readable and maintainable.
 
@@ -639,7 +633,7 @@ In a Mermaid diagram, the hierarchy of sealed interface types for client and ser
 
 [![](https://mermaid.ink/img/pako:eNp90c1OwzAMB_BXqXzeXqDiAqvgAIyPXnuxkj8lapNUjgOqxt6dbNoBEEoujqyfZVs-kIkW1JKZOaXO8Sjsh9CU93y3mx2CPiIlHtFcfW23Td8_7DFGZXUx1JyyaF4uuQp8yZD1D-shH5Bf7Drreyl15tz4aarQGzYTgr3H2rFyBb6C7Xob5TxCzcXPDsmIW34u_Q889Su4InbRew62hGWGgjbkIZ6dLRc4nOoGKnt6DNSWr2WZBhrCsTjOGvs1GGpVMjaUF8uKy8GofeM54fgNtMqdBw?type=png)](https://mermaid.live/edit#pako:eNp90c1OwzAMB_BXqXzeXqDiAqvgAIyPXnuxkj8lapNUjgOqxt6dbNoBEEoujqyfZVs-kIkW1JKZOaXO8Sjsh9CU93y3mx2CPiIlHtFcfW23Td8_7DFGZXUx1JyyaF4uuQp8yZD1D-shH5Bf7Drreyl15tz4aarQGzYTgr3H2rFyBb6C7Xob5TxCzcXPDsmIW34u_Q889Su4InbRew62hGWGgjbkIZ6dLRc4nOoGKnt6DNSWr2WZBhrCsTjOGvs1GGpVMjaUF8uKy8GofeM54fgNtMqdBw)
 
-### Refactoring into Sealed Interfaces with Records and Message Decoders (Pt 1. Client Side)
+## Refactoring into Sealed Interfaces with Records and Message Decoders (Pt 1. Client Side)
 
 We'll start with the client side, since it's a bit simpler.
 
@@ -747,7 +741,7 @@ private static void handleSSLRequest(PGClientMessage.SSLNegotation sslRequest, A
 }
 ```
 
-### Refactoring into Sealed Interfaces with Records and Message Decoders (Pt 2. Server Side)
+## Refactoring into Sealed Interfaces with Records and Message Decoders (Pt 2. Server Side)
 
 The final section of our journey, is just more of the same, so I will leave this section a bit more brief.
 
