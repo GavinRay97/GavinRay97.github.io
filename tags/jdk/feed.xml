@@ -7,9 +7,20 @@
       <language>en-us</language>
       <managingEditor>ray.gavin97@gmail.com (Gavin Ray)</managingEditor>
       <webMaster>ray.gavin97@gmail.com (Gavin Ray)</webMaster>
-      <lastBuildDate>Mon, 16 Jan 2023 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Sat, 04 Feb 2023 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://gavinray97.github.io/tags/jdk/feed.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://gavinray97.github.io/blog/what-good-are-record-patterns</guid>
+    <title>What good are Record Patterns in Java? An example based on Spark&#39;s Catalyst Optimizer and it&#39;s Tree Rewriting Rules</title>
+    <link>https://gavinray97.github.io/blog/what-good-are-record-patterns</link>
+    <description>A tutorial on how to use Java&#39;s new Record Patterns feature to write powerful, concise pattern matching code for usecases like AST transformations and rewrite-rules in compiler passes.
+</description>
+    <pubDate>Sat, 04 Feb 2023 00:00:00 GMT</pubDate>
+    <author>ray.gavin97@gmail.com (Gavin Ray)</author>
+    <category>java</category><category>jdk</category><category>jvm</category>
+  </item>
+
   <item>
     <guid>https://gavinray97.github.io/blog/postgres-wire-protocol-jdk-21</guid>
     <title>Building a PostgreSQL Wire Protocol Server using Vanilla, Modern Java 21</title>
