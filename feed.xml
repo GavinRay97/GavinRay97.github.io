@@ -7,9 +7,19 @@
       <language>en-us</language>
       <managingEditor>ray.gavin97@gmail.com (Gavin Ray)</managingEditor>
       <webMaster>ray.gavin97@gmail.com (Gavin Ray)</webMaster>
-      <lastBuildDate>Sat, 04 Feb 2023 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Sun, 20 Apr 2025 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://gavinray97.github.io/feed.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://gavinray97.github.io/blog/maths-education-blog</guid>
+    <title>My Issues with Maths Education in USA Public Schools</title>
+    <link>https://gavinray97.github.io/blog/maths-education-blog</link>
+    <description>A look at my experience with maths education in the USA and how it has shaped my career.</description>
+    <pubDate>Sun, 20 Apr 2025 00:00:00 GMT</pubDate>
+    <author>ray.gavin97@gmail.com (Gavin Ray)</author>
+    <category>non-technical</category>
+  </item>
+
   <item>
     <guid>https://gavinray97.github.io/blog/what-good-are-record-patterns</guid>
     <title>What good are Record Patterns in Java? An example based on Spark&#39;s Catalyst Optimizer and it&#39;s Tree Rewriting Rules</title>
