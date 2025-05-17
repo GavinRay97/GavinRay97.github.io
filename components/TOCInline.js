@@ -1,25 +1,3 @@
-/**
- * @typedef TocHeading
- * @prop {string} value
- * @prop {number} depth
- * @prop {string} url
- */
-
-/**
- * Generates an inline table of contents
- * Exclude titles matching this string (new RegExp('^(' + string + ')$', 'i')).
- * If an array is passed the array gets joined with a pipe (new RegExp('^(' + array.join('|') + ')$', 'i')).
- *
- * @param {{
- *  toc: TocHeading[],
- *  indentDepth?: number,
- *  fromHeading?: number,
- *  toHeading?: number,
- *  asDisclosure?: boolean,
- *  exclude?: string|string[]
- * }} props
- *
- */
 const TOCInline = ({
   toc,
   indentDepth = 3,
@@ -37,21 +15,57 @@ const TOCInline = ({
       heading.depth >= fromHeading && heading.depth <= toHeading && !re.test(heading.value)
   )
 
-  const tocList = (
-    <ul>
-      {filteredToc.map((heading) => (
-        <li key={heading.value} className={`${heading.depth >= indentDepth && 'ml-6'}`}>
-          <a href={heading.url}>{heading.value}</a>
-        </li>
-      ))}
-    </ul>
-  )
+  function buildTree(toc, depth = fromHeading) {
+    const items = []
+    let i = 0
+    while (i < toc.length) {
+      const current = toc[i]
+      if (current.depth === depth) {
+        // Find children
+        const children = []
+        let j = i + 1
+        while (j < toc.length && toc[j].depth > depth) {
+          children.push(toc[j])
+          j++
+        }
+        items.push({
+          heading: current,
+          children: buildTree(children, depth + 1),
+        })
+        i = j
+      } else {
+        i++
+      }
+    }
+    return items
+  }
+
+  function renderTree(tree, baseDepth = fromHeading) {
+    if (!tree.length) return null
+    return (
+      <ul>
+        {tree.map((node) => {
+          const ml = (node.heading.depth - baseDepth) * 24 // 1.5rem per level
+          return (
+            <li key={node.heading.value} style={{ marginLeft: ml > 0 ? `${ml}px` : undefined }}>
+              <a href={node.heading.url}>{node.heading.value}</a>
+              {renderTree(node.children, baseDepth)}
+            </li>
+          )
+        })}
+      </ul>
+    )
+  }
+
+  const tocTree = buildTree(filteredToc)
+
+  const tocList = renderTree(tocTree)
 
   return (
     <>
       {asDisclosure ? (
         <details open>
-          <summary className="ml-6 pt-2 pb-2 text-xl font-bold">Table of Contents</summary>
+          <summary className="ml-6 pb-2 pt-2 text-xl font-bold">Table of Contents</summary>
           <div className="ml-6">{tocList}</div>
         </details>
       ) : (
