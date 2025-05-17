@@ -7,9 +7,19 @@
       <language>en-us</language>
       <managingEditor>ray.gavin97@gmail.com (Gavin Ray)</managingEditor>
       <webMaster>ray.gavin97@gmail.com (Gavin Ray)</webMaster>
-      <lastBuildDate>Sun, 20 Apr 2025 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Sat, 17 May 2025 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://gavinray97.github.io/feed.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://gavinray97.github.io/blog/overcoming-dialect-sql-generation-limits</guid>
+    <title>AI SQL Generation: Overcoming dialect-specific syntax errors</title>
+    <link>https://gavinray97.github.io/blog/overcoming-dialect-sql-generation-limits</link>
+    <description>A discussion on techniques available to overcome semantic errors in syntax when generating dialect-specific SQL</description>
+    <pubDate>Sat, 17 May 2025 00:00:00 GMT</pubDate>
+    <author>ray.gavin97@gmail.com (Gavin Ray)</author>
+    <category>sql</category><category>text-to-sql</category><category>llms</category>
+  </item>
+
   <item>
     <guid>https://gavinray97.github.io/blog/maths-education-blog</guid>
     <title>The USA Public School System Failed Me: A Maths Misadventure</title>

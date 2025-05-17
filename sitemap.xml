@@ -49,6 +49,10 @@
   </url>
 
   <url>
+    <loc>https://gavinray97.github.io/blog/overcoming-dialect-sql-generation-limits</loc>
+  </url>
+
+  <url>
     <loc>https://gavinray97.github.io/blog/what-good-are-record-patterns</loc>
   </url>
 
@@ -109,6 +113,10 @@
   </url>
 
   <url>
+    <loc>https://gavinray97.github.io/tags/llms</loc>
+  </url>
+
+  <url>
     <loc>https://gavinray97.github.io/tags/machine-learning</loc>
   </url>
 
@@ -138,6 +146,10 @@
 
   <url>
     <loc>https://gavinray97.github.io/tags/sql</loc>
+  </url>
+
+  <url>
+    <loc>https://gavinray97.github.io/tags/text-to-sql</loc>
   </url>
 
   <url>
