@@ -7,9 +7,19 @@
       <language>en-us</language>
       <managingEditor>ray.gavin97@gmail.com (Gavin Ray)</managingEditor>
       <webMaster>ray.gavin97@gmail.com (Gavin Ray)</webMaster>
-      <lastBuildDate>Sat, 12 Jul 2025 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Sat, 19 Jul 2025 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://gavinray97.github.io/feed.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://gavinray97.github.io/blog/postgres-sql-property-graphs</guid>
+    <title>Experimenting with SQL:2023 Property-Graph Queries in Postgres 18</title>
+    <link>https://gavinray97.github.io/blog/postgres-sql-property-graphs</link>
+    <description>Hands-on guide to the upcoming SQL/PGQ graph syntax using a patched Postgres 18 beta.</description>
+    <pubDate>Sat, 19 Jul 2025 00:00:00 GMT</pubDate>
+    <author>ray.gavin97@gmail.com (Gavin Ray)</author>
+    <category>postgres</category><category>sql</category>
+  </item>
+
   <item>
     <guid>https://gavinray97.github.io/blog/perspectives-on-psychedelic-use</guid>
     <title>Psychedelics as Tools: Reflections After 20+ Compounds and a Decade of Experiments</title>
