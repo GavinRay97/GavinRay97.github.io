@@ -2,7 +2,7 @@
 name: Gavin Ray
 avatar: /static/images/me.png
 occupation: Code Stuff
-company: Hasura
+company: PromptQL (formerly known as Hasura)
 email: ray.gavin97@gmail.com
 twitter: https://twitter.com/GavinRayDev
 linkedin: https://www.linkedin.com
@@ -14,7 +14,7 @@ github: https://github.com/GavinRay97
 I've spent the last decade in the software world at startups of various sizes, wearing many hats.
 Statistically, I've been programming for ~65% of the time I've been alive!
 
-I am employed at [Hasura](https://hasura.io), where I build connectors for various data sources that allow users and organizations to connect their data to Hasura's GraphQL engine. This work is done on the JVM, in Kotlin, using our open-source [GraphQL Data Connectors](https://hasura.io/blog/hasura-graphql-data-connectors/) framework. I think it's fascinating work and I'm proud to be a part of it.
+I am employed at ~~[Hasura](https://hasura.io)~~ [PromptQL](https://promptql.io/), where I build connectors for various data sources that allow users and organizations to connect their data to ~~Hasura's GraphQL engine~~ PromptQL's context engine. This work is done on the JVM, in Kotlin, using our open-source ~~[GraphQL Data Connectors](https://hasura.io/blog/hasura-graphql-data-connectors/)~~ [NDC Connectors](https://hasura.github.io/ndc-spec/overview.html) framework. I think it's fascinating work and I'm proud to be a part of it.
 
 # My Interests
 
