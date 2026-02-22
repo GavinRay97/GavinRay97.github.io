@@ -7,9 +7,19 @@
       <language>en-us</language>
       <managingEditor>ray.gavin97@gmail.com (Gavin Ray)</managingEditor>
       <webMaster>ray.gavin97@gmail.com (Gavin Ray)</webMaster>
-      <lastBuildDate>Sat, 19 Jul 2025 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Sun, 22 Feb 2026 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://gavinray97.github.io/feed.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://gavinray97.github.io/blog/absurdity-of-ai-engineer-title</guid>
+    <title>The Absurdity of the term &quot;AI Engineer&quot;</title>
+    <link>https://gavinray97.github.io/blog/absurdity-of-ai-engineer-title</link>
+    <description>Integrating a third-party LLM SDK does not make you an AI Engineer: a rant on the inflation of job titles in the age of ChatGPT wrappers.</description>
+    <pubDate>Sun, 22 Feb 2026 00:00:00 GMT</pubDate>
+    <author>ray.gavin97@gmail.com (Gavin Ray)</author>
+    <category>non-technical</category><category>ai</category><category>opinion</category>
+  </item>
+
   <item>
     <guid>https://gavinray97.github.io/blog/postgres-sql-property-graphs</guid>
     <title>Experimenting with SQL:2023 Property-Graph Queries in Postgres 18</title>

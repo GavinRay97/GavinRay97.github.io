@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a"/>
+      <stop offset="100%" style="stop-color:#1e293b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#a78bfa"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Decorative grid dots -->
+  <g opacity="0.06" fill="#94a3b8">
+    <circle cx="60" cy="60" r="2"/><circle cx="120" cy="60" r="2"/><circle cx="180" cy="60" r="2"/><circle cx="240" cy="60" r="2"/><circle cx="300" cy="60" r="2"/><circle cx="360" cy="60" r="2"/><circle cx="420" cy="60" r="2"/><circle cx="480" cy="60" r="2"/><circle cx="540" cy="60" r="2"/><circle cx="600" cy="60" r="2"/><circle cx="660" cy="60" r="2"/><circle cx="720" cy="60" r="2"/><circle cx="780" cy="60" r="2"/><circle cx="840" cy="60" r="2"/><circle cx="900" cy="60" r="2"/><circle cx="960" cy="60" r="2"/><circle cx="1020" cy="60" r="2"/><circle cx="1080" cy="60" r="2"/><circle cx="1140" cy="60" r="2"/>
+    <circle cx="60" cy="120" r="2"/><circle cx="120" cy="120" r="2"/><circle cx="180" cy="120" r="2"/><circle cx="240" cy="120" r="2"/><circle cx="300" cy="120" r="2"/><circle cx="360" cy="120" r="2"/><circle cx="420" cy="120" r="2"/><circle cx="480" cy="120" r="2"/><circle cx="540" cy="120" r="2"/><circle cx="600" cy="120" r="2"/><circle cx="660" cy="120" r="2"/><circle cx="720" cy="120" r="2"/><circle cx="780" cy="120" r="2"/><circle cx="840" cy="120" r="2"/><circle cx="900" cy="120" r="2"/><circle cx="960" cy="120" r="2"/><circle cx="1020" cy="120" r="2"/><circle cx="1080" cy="120" r="2"/><circle cx="1140" cy="120" r="2"/>
+    <circle cx="60" cy="180" r="2"/><circle cx="120" cy="180" r="2"/><circle cx="180" cy="180" r="2"/><circle cx="240" cy="180" r="2"/><circle cx="300" cy="180" r="2"/><circle cx="360" cy="180" r="2"/><circle cx="420" cy="180" r="2"/><circle cx="480" cy="180" r="2"/><circle cx="540" cy="180" r="2"/><circle cx="600" cy="180" r="2"/><circle cx="660" cy="180" r="2"/><circle cx="720" cy="180" r="2"/><circle cx="780" cy="180" r="2"/><circle cx="840" cy="180" r="2"/><circle cx="900" cy="180" r="2"/><circle cx="960" cy="180" r="2"/><circle cx="1020" cy="180" r="2"/><circle cx="1080" cy="180" r="2"/><circle cx="1140" cy="180" r="2"/>
+    <circle cx="60" cy="510" r="2"/><circle cx="120" cy="510" r="2"/><circle cx="180" cy="510" r="2"/><circle cx="240" cy="510" r="2"/><circle cx="300" cy="510" r="2"/><circle cx="360" cy="510" r="2"/><circle cx="420" cy="510" r="2"/><circle cx="480" cy="510" r="2"/><circle cx="540" cy="510" r="2"/><circle cx="600" cy="510" r="2"/><circle cx="660" cy="510" r="2"/><circle cx="720" cy="510" r="2"/><circle cx="780" cy="510" r="2"/><circle cx="840" cy="510" r="2"/><circle cx="900" cy="510" r="2"/><circle cx="960" cy="510" r="2"/><circle cx="1020" cy="510" r="2"/><circle cx="1080" cy="510" r="2"/><circle cx="1140" cy="510" r="2"/>
+    <circle cx="60" cy="570" r="2"/><circle cx="120" cy="570" r="2"/><circle cx="180" cy="570" r="2"/><circle cx="240" cy="570" r="2"/><circle cx="300" cy="570" r="2"/><circle cx="360" cy="570" r="2"/><circle cx="420" cy="570" r="2"/><circle cx="480" cy="570" r="2"/><circle cx="540" cy="570" r="2"/><circle cx="600" cy="570" r="2"/><circle cx="660" cy="570" r="2"/><circle cx="720" cy="570" r="2"/><circle cx="780" cy="570" r="2"/><circle cx="840" cy="570" r="2"/><circle cx="900" cy="570" r="2"/><circle cx="960" cy="570" r="2"/><circle cx="1020" cy="570" r="2"/><circle cx="1080" cy="570" r="2"/><circle cx="1140" cy="570" r="2"/>
+  </g>
+
+  <!-- Accent bar at top -->
+  <rect x="0" y="0" width="1200" height="4" fill="url(#accent)"/>
+
+  <!-- "AI Engineer" in giant faded background text -->
+  <text x="600" y="380" text-anchor="middle" font-family="'Georgia', serif" font-size="160" font-weight="bold" fill="#6366f1" opacity="0.05" letter-spacing="-2">AI Engineer</text>
+
+  <!-- Quotation marks decorative -->
+  <text x="80" y="240" font-family="'Georgia', serif" font-size="180" fill="#6366f1" opacity="0.15">"</text>
+  <text x="1060" y="460" font-family="'Georgia', serif" font-size="180" fill="#6366f1" opacity="0.15">"</text>
+
+  <!-- Title -->
+  <text x="600" y="250" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-weight="700" fill="#f1f5f9">
+    <tspan font-size="52">The Absurdity of the term</tspan>
+  </text>
+  <text x="600" y="330" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-weight="700" fill="url(#accent)">
+    <tspan font-size="68">"AI Engineer"</tspan>
+  </text>
+
+  <!-- Subtitle -->
+  <text x="600" y="400" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" fill="#94a3b8">
+    npm install openai !== Machine Learning
+  </text>
+
+  <!-- Divider -->
+  <rect x="500" y="430" width="200" height="2" fill="#6366f1" opacity="0.4" rx="1"/>
+
+  <!-- Bottom tag line -->
+  <text x="600" y="475" text-anchor="middle" font-family="'Courier New', monospace" font-size="16" fill="#64748b" letter-spacing="3">OPINION</text>
+</svg>
