@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a"/>
+      <stop offset="100%" style="stop-color:#1e293b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#22d3ee"/>
+      <stop offset="100%" style="stop-color:#6366f1"/>
+    </linearGradient>
+    <linearGradient id="red" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ef4444"/>
+      <stop offset="100%" style="stop-color:#f97316"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Decorative grid dots -->
+  <g opacity="0.06" fill="#94a3b8">
+    <circle cx="60" cy="60" r="2"/><circle cx="120" cy="60" r="2"/><circle cx="180" cy="60" r="2"/><circle cx="240" cy="60" r="2"/><circle cx="300" cy="60" r="2"/><circle cx="360" cy="60" r="2"/><circle cx="420" cy="60" r="2"/><circle cx="480" cy="60" r="2"/><circle cx="540" cy="60" r="2"/><circle cx="600" cy="60" r="2"/><circle cx="660" cy="60" r="2"/><circle cx="720" cy="60" r="2"/><circle cx="780" cy="60" r="2"/><circle cx="840" cy="60" r="2"/><circle cx="900" cy="60" r="2"/><circle cx="960" cy="60" r="2"/><circle cx="1020" cy="60" r="2"/><circle cx="1080" cy="60" r="2"/><circle cx="1140" cy="60" r="2"/>
+    <circle cx="60" cy="120" r="2"/><circle cx="120" cy="120" r="2"/><circle cx="180" cy="120" r="2"/><circle cx="240" cy="120" r="2"/><circle cx="300" cy="120" r="2"/><circle cx="360" cy="120" r="2"/><circle cx="420" cy="120" r="2"/><circle cx="480" cy="120" r="2"/><circle cx="540" cy="120" r="2"/><circle cx="600" cy="120" r="2"/><circle cx="660" cy="120" r="2"/><circle cx="720" cy="120" r="2"/><circle cx="780" cy="120" r="2"/><circle cx="840" cy="120" r="2"/><circle cx="900" cy="120" r="2"/><circle cx="960" cy="120" r="2"/><circle cx="1020" cy="120" r="2"/><circle cx="1080" cy="120" r="2"/><circle cx="1140" cy="120" r="2"/>
+    <circle cx="60" cy="180" r="2"/><circle cx="120" cy="180" r="2"/><circle cx="180" cy="180" r="2"/><circle cx="240" cy="180" r="2"/><circle cx="300" cy="180" r="2"/><circle cx="360" cy="180" r="2"/><circle cx="420" cy="180" r="2"/><circle cx="480" cy="180" r="2"/><circle cx="540" cy="180" r="2"/><circle cx="600" cy="180" r="2"/><circle cx="660" cy="180" r="2"/><circle cx="720" cy="180" r="2"/><circle cx="780" cy="180" r="2"/><circle cx="840" cy="180" r="2"/><circle cx="900" cy="180" r="2"/><circle cx="960" cy="180" r="2"/><circle cx="1020" cy="180" r="2"/><circle cx="1080" cy="180" r="2"/><circle cx="1140" cy="180" r="2"/>
+    <circle cx="60" cy="510" r="2"/><circle cx="120" cy="510" r="2"/><circle cx="180" cy="510" r="2"/><circle cx="240" cy="510" r="2"/><circle cx="300" cy="510" r="2"/><circle cx="360" cy="510" r="2"/><circle cx="420" cy="510" r="2"/><circle cx="480" cy="510" r="2"/><circle cx="540" cy="510" r="2"/><circle cx="600" cy="510" r="2"/><circle cx="660" cy="510" r="2"/><circle cx="720" cy="510" r="2"/><circle cx="780" cy="510" r="2"/><circle cx="840" cy="510" r="2"/><circle cx="900" cy="510" r="2"/><circle cx="960" cy="510" r="2"/><circle cx="1020" cy="510" r="2"/><circle cx="1080" cy="510" r="2"/><circle cx="1140" cy="510" r="2"/>
+    <circle cx="60" cy="570" r="2"/><circle cx="120" cy="570" r="2"/><circle cx="180" cy="570" r="2"/><circle cx="240" cy="570" r="2"/><circle cx="300" cy="570" r="2"/><circle cx="360" cy="570" r="2"/><circle cx="420" cy="570" r="2"/><circle cx="480" cy="570" r="2"/><circle cx="540" cy="570" r="2"/><circle cx="600" cy="570" r="2"/><circle cx="660" cy="570" r="2"/><circle cx="720" cy="570" r="2"/><circle cx="780" cy="570" r="2"/><circle cx="840" cy="570" r="2"/><circle cx="900" cy="570" r="2"/><circle cx="960" cy="570" r="2"/><circle cx="1020" cy="570" r="2"/><circle cx="1080" cy="570" r="2"/><circle cx="1140" cy="570" r="2"/>
+  </g>
+
+  <!-- Accent bar at top -->
+  <rect x="0" y="0" width="1200" height="4" fill="url(#accent)"/>
+
+  <!-- Giant faded background text -->
+  <text x="600" y="390" text-anchor="middle" font-family="'Georgia', serif" font-size="130" font-weight="bold" fill="#22d3ee" opacity="0.04" letter-spacing="-2">memfd_create</text>
+
+  <!-- Lock icon (left, crossed out) -->
+  <g transform="translate(340, 120)" opacity="0.12">
+    <rect x="10" y="35" width="60" height="45" rx="6" fill="none" stroke="#ef4444" stroke-width="2"/>
+    <path d="M22,35 V25 a18,18 0 0,1 36,0 V35" fill="none" stroke="#ef4444" stroke-width="2"/>
+    <line x1="5" y1="10" x2="75" y2="75" stroke="#ef4444" stroke-width="3"/>
+  </g>
+
+  <!-- Memory chip icon (right) -->
+  <g transform="translate(780, 120)" opacity="0.12">
+    <rect x="15" y="15" width="50" height="50" rx="4" fill="none" stroke="#22d3ee" stroke-width="2"/>
+    <line x1="15" y1="30" x2="5" y2="30" stroke="#22d3ee" stroke-width="2"/>
+    <line x1="15" y1="50" x2="5" y2="50" stroke="#22d3ee" stroke-width="2"/>
+    <line x1="65" y1="30" x2="75" y2="30" stroke="#22d3ee" stroke-width="2"/>
+    <line x1="65" y1="50" x2="75" y2="50" stroke="#22d3ee" stroke-width="2"/>
+    <line x1="30" y1="15" x2="30" y2="5" stroke="#22d3ee" stroke-width="2"/>
+    <line x1="50" y1="15" x2="50" y2="5" stroke="#22d3ee" stroke-width="2"/>
+    <line x1="30" y1="65" x2="30" y2="75" stroke="#22d3ee" stroke-width="2"/>
+    <line x1="50" y1="65" x2="50" y2="75" stroke="#22d3ee" stroke-width="2"/>
+  </g>
+
+  <!-- Title line 1 -->
+  <text x="600" y="245" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-weight="700" fill="#f1f5f9">
+    <tspan font-size="52">Bypassing</tspan>
+    <tspan font-size="52" fill="url(#red)"> noexec</tspan>
+  </text>
+  <!-- Title line 2 -->
+  <text x="600" y="320" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-weight="700" fill="#f1f5f9">
+    <tspan font-size="52">with</tspan>
+    <tspan font-size="52" fill="url(#accent)"> memfd_create(2)</tspan>
+  </text>
+
+  <!-- Subtitle -->
+  <text x="600" y="390" text-anchor="middle" font-family="'Courier New', monospace" font-size="20" fill="#94a3b8">
+    int memfd = memfd_create("lib.so", MFD_CLOEXEC);
+  </text>
+
+  <!-- Divider -->
+  <rect x="500" y="425" width="200" height="2" fill="#22d3ee" opacity="0.4" rx="1"/>
+
+  <!-- Bottom tag line -->
+  <text x="600" y="470" text-anchor="middle" font-family="'Courier New', monospace" font-size="16" fill="#64748b" letter-spacing="3">LINUX / SYSTEMS PROGRAMMING</text>
+</svg>
