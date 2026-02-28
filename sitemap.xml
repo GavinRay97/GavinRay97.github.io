@@ -53,6 +53,10 @@
   </url>
 
   <url>
+    <loc>https://gavinray97.github.io/blog/memfd-create-noexec</loc>
+  </url>
+
+  <url>
     <loc>https://gavinray97.github.io/blog/overcoming-dialect-sql-generation-limits</loc>
   </url>
 
@@ -70,6 +74,10 @@
 
   <url>
     <loc>https://gavinray97.github.io/tags/ai</loc>
+  </url>
+
+  <url>
+    <loc>https://gavinray97.github.io/tags/c</loc>
   </url>
 
   <url>
@@ -174,6 +182,10 @@
 
   <url>
     <loc>https://gavinray97.github.io/tags/sql</loc>
+  </url>
+
+  <url>
+    <loc>https://gavinray97.github.io/tags/systems-programming</loc>
   </url>
 
   <url>

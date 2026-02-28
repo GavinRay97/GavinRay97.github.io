@@ -7,9 +7,19 @@
       <language>en-us</language>
       <managingEditor>ray.gavin97@gmail.com (Gavin Ray)</managingEditor>
       <webMaster>ray.gavin97@gmail.com (Gavin Ray)</webMaster>
-      <lastBuildDate>Sat, 04 Feb 2023 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Sun, 01 Mar 2026 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://gavinray97.github.io/tags/java/feed.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://gavinray97.github.io/blog/memfd-create-noexec</guid>
+    <title>Bypassing noexec with memfd_create(2)</title>
+    <link>https://gavinray97.github.io/blog/memfd-create-noexec</link>
+    <description>Using Linux&#39;s memfd_create(2) syscall to load shared libraries and execute binaries entirely from memory, bypassing noexec restrictions without ever touching disk.</description>
+    <pubDate>Sun, 01 Mar 2026 00:00:00 GMT</pubDate>
+    <author>ray.gavin97@gmail.com (Gavin Ray)</author>
+    <category>linux</category><category>c</category><category>systems-programming</category><category>java</category>
+  </item>
+
   <item>
     <guid>https://gavinray97.github.io/blog/what-good-are-record-patterns</guid>
     <title>What good are Record Patterns in Java? An example based on Spark&#39;s Catalyst Optimizer and it&#39;s Tree Rewriting Rules</title>

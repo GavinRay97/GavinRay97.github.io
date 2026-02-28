@@ -1,0 +1,24 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>Gavin Ray Blog</title>
+      <link>https://gavinray97.github.io/blog</link>
+      <description></description>
+      <language>en-us</language>
+      <managingEditor>ray.gavin97@gmail.com (Gavin Ray)</managingEditor>
+      <webMaster>ray.gavin97@gmail.com (Gavin Ray)</webMaster>
+      <lastBuildDate>Sun, 01 Mar 2026 00:00:00 GMT</lastBuildDate>
+      <atom:link href="https://gavinray97.github.io/tags/c/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://gavinray97.github.io/blog/memfd-create-noexec</guid>
+    <title>Bypassing noexec with memfd_create(2)</title>
+    <link>https://gavinray97.github.io/blog/memfd-create-noexec</link>
+    <description>Using Linux&#39;s memfd_create(2) syscall to load shared libraries and execute binaries entirely from memory, bypassing noexec restrictions without ever touching disk.</description>
+    <pubDate>Sun, 01 Mar 2026 00:00:00 GMT</pubDate>
+    <author>ray.gavin97@gmail.com (Gavin Ray)</author>
+    <category>linux</category><category>c</category><category>systems-programming</category><category>java</category>
+  </item>
+
+    </channel>
+  </rss>
