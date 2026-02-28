@@ -49,6 +49,10 @@
   </url>
 
   <url>
+    <loc>https://gavinray97.github.io/blog/llm-build-cheaper-than-searching</loc>
+  </url>
+
+  <url>
     <loc>https://gavinray97.github.io/blog/overcoming-dialect-sql-generation-limits</loc>
   </url>
 
@@ -65,15 +69,15 @@
   </url>
 
   <url>
+    <loc>https://gavinray97.github.io/tags/ai</loc>
+  </url>
+
+  <url>
     <loc>https://gavinray97.github.io/tags/cpp</loc>
   </url>
 
   <url>
     <loc>https://gavinray97.github.io/tags/database</loc>
-  </url>
-
-  <url>
-    <loc>https://gavinray97.github.io/tags/ai</loc>
   </url>
 
   <url>
@@ -162,6 +166,10 @@
 
   <url>
     <loc>https://gavinray97.github.io/tags/server</loc>
+  </url>
+
+  <url>
+    <loc>https://gavinray97.github.io/tags/software-engineering</loc>
   </url>
 
   <url>

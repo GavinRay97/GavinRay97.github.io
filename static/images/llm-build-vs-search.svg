@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a"/>
+      <stop offset="100%" style="stop-color:#1e293b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f59e0b"/>
+      <stop offset="100%" style="stop-color:#ef4444"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#10b981"/>
+      <stop offset="100%" style="stop-color:#34d399"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Decorative grid dots -->
+  <g opacity="0.06" fill="#94a3b8">
+    <circle cx="60" cy="60" r="2"/><circle cx="120" cy="60" r="2"/><circle cx="180" cy="60" r="2"/><circle cx="240" cy="60" r="2"/><circle cx="300" cy="60" r="2"/><circle cx="360" cy="60" r="2"/><circle cx="420" cy="60" r="2"/><circle cx="480" cy="60" r="2"/><circle cx="540" cy="60" r="2"/><circle cx="600" cy="60" r="2"/><circle cx="660" cy="60" r="2"/><circle cx="720" cy="60" r="2"/><circle cx="780" cy="60" r="2"/><circle cx="840" cy="60" r="2"/><circle cx="900" cy="60" r="2"/><circle cx="960" cy="60" r="2"/><circle cx="1020" cy="60" r="2"/><circle cx="1080" cy="60" r="2"/><circle cx="1140" cy="60" r="2"/>
+    <circle cx="60" cy="120" r="2"/><circle cx="120" cy="120" r="2"/><circle cx="180" cy="120" r="2"/><circle cx="240" cy="120" r="2"/><circle cx="300" cy="120" r="2"/><circle cx="360" cy="120" r="2"/><circle cx="420" cy="120" r="2"/><circle cx="480" cy="120" r="2"/><circle cx="540" cy="120" r="2"/><circle cx="600" cy="120" r="2"/><circle cx="660" cy="120" r="2"/><circle cx="720" cy="120" r="2"/><circle cx="780" cy="120" r="2"/><circle cx="840" cy="120" r="2"/><circle cx="900" cy="120" r="2"/><circle cx="960" cy="120" r="2"/><circle cx="1020" cy="120" r="2"/><circle cx="1080" cy="120" r="2"/><circle cx="1140" cy="120" r="2"/>
+    <circle cx="60" cy="180" r="2"/><circle cx="120" cy="180" r="2"/><circle cx="180" cy="180" r="2"/><circle cx="240" cy="180" r="2"/><circle cx="300" cy="180" r="2"/><circle cx="360" cy="180" r="2"/><circle cx="420" cy="180" r="2"/><circle cx="480" cy="180" r="2"/><circle cx="540" cy="180" r="2"/><circle cx="600" cy="180" r="2"/><circle cx="660" cy="180" r="2"/><circle cx="720" cy="180" r="2"/><circle cx="780" cy="180" r="2"/><circle cx="840" cy="180" r="2"/><circle cx="900" cy="180" r="2"/><circle cx="960" cy="180" r="2"/><circle cx="1020" cy="180" r="2"/><circle cx="1080" cy="180" r="2"/><circle cx="1140" cy="180" r="2"/>
+    <circle cx="60" cy="510" r="2"/><circle cx="120" cy="510" r="2"/><circle cx="180" cy="510" r="2"/><circle cx="240" cy="510" r="2"/><circle cx="300" cy="510" r="2"/><circle cx="360" cy="510" r="2"/><circle cx="420" cy="510" r="2"/><circle cx="480" cy="510" r="2"/><circle cx="540" cy="510" r="2"/><circle cx="600" cy="510" r="2"/><circle cx="660" cy="510" r="2"/><circle cx="720" cy="510" r="2"/><circle cx="780" cy="510" r="2"/><circle cx="840" cy="510" r="2"/><circle cx="900" cy="510" r="2"/><circle cx="960" cy="510" r="2"/><circle cx="1020" cy="510" r="2"/><circle cx="1080" cy="510" r="2"/><circle cx="1140" cy="510" r="2"/>
+    <circle cx="60" cy="570" r="2"/><circle cx="120" cy="570" r="2"/><circle cx="180" cy="570" r="2"/><circle cx="240" cy="570" r="2"/><circle cx="300" cy="570" r="2"/><circle cx="360" cy="570" r="2"/><circle cx="420" cy="570" r="2"/><circle cx="480" cy="570" r="2"/><circle cx="540" cy="570" r="2"/><circle cx="600" cy="570" r="2"/><circle cx="660" cy="570" r="2"/><circle cx="720" cy="570" r="2"/><circle cx="780" cy="570" r="2"/><circle cx="840" cy="570" r="2"/><circle cx="900" cy="570" r="2"/><circle cx="960" cy="570" r="2"/><circle cx="1020" cy="570" r="2"/><circle cx="1080" cy="570" r="2"/><circle cx="1140" cy="570" r="2"/>
+  </g>
+
+  <!-- Accent bar at top -->
+  <rect x="0" y="0" width="1200" height="4" fill="url(#accent)"/>
+
+  <!-- Giant faded background text -->
+  <text x="600" y="400" text-anchor="middle" font-family="'Georgia', serif" font-size="140" font-weight="bold" fill="#f59e0b" opacity="0.04" letter-spacing="-2">BUILD vs FIND</text>
+
+  <!-- Crossed-out "build" icon area (left) -->
+  <g transform="translate(340, 140)" opacity="0.12">
+    <rect x="0" y="0" width="80" height="80" rx="8" fill="none" stroke="#ef4444" stroke-width="2"/>
+    <text x="40" y="52" text-anchor="middle" font-family="'Courier New', monospace" font-size="36" fill="#ef4444">{}</text>
+    <line x1="5" y1="5" x2="75" y2="75" stroke="#ef4444" stroke-width="3"/>
+  </g>
+
+  <!-- Search/find icon area (right) -->
+  <g transform="translate(780, 140)" opacity="0.12">
+    <circle cx="35" cy="35" r="25" fill="none" stroke="#10b981" stroke-width="2"/>
+    <line x1="52" y1="52" x2="70" y2="70" stroke="#10b981" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- Title line 1 -->
+  <text x="600" y="230" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-weight="700" fill="url(#accent)">
+    <tspan font-size="56">Disposable Software</tspan>
+  </text>
+  <!-- Title line 2 -->
+  <text x="600" y="310" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-weight="700" fill="#f1f5f9">
+    <tspan font-size="38">When generating code costs</tspan>
+  </text>
+  <!-- Title line 3 -->
+  <text x="600" y="365" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-weight="700" fill="#f1f5f9">
+    <tspan font-size="38">less than</tspan>
+    <tspan font-size="38" fill="url(#green)"> finding it</tspan>
+  </text>
+
+  <!-- Subtitle -->
+  <text x="600" y="435" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" fill="#94a3b8">
+    Code is a liability, not an asset
+  </text>
+
+  <!-- Divider -->
+  <rect x="500" y="465" width="200" height="2" fill="#f59e0b" opacity="0.4" rx="1"/>
+
+  <!-- Bottom tag line -->
+  <text x="600" y="510" text-anchor="middle" font-family="'Courier New', monospace" font-size="16" fill="#64748b" letter-spacing="3">OPINION</text>
+</svg>
