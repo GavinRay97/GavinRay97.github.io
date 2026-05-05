@@ -7,9 +7,19 @@
       <language>en-us</language>
       <managingEditor>ray.gavin97@gmail.com (Gavin Ray)</managingEditor>
       <webMaster>ray.gavin97@gmail.com (Gavin Ray)</webMaster>
-      <lastBuildDate>Sat, 28 Feb 2026 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Tue, 05 May 2026 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://gavinray97.github.io/tags/ai/feed.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://gavinray97.github.io/blog/the-race-for-universal-context-layer</guid>
+    <title>The Race to Become the Context Layer for Agents</title>
+    <link>https://gavinray97.github.io/blog/the-race-for-universal-context-layer</link>
+    <description>The next data platform may be less about storing data and more about deciding what AI agents should know, trust, and act on.</description>
+    <pubDate>Tue, 05 May 2026 00:00:00 GMT</pubDate>
+    <author>ray.gavin97@gmail.com (Gavin Ray)</author>
+    <category>ai</category><category>llm</category><category>agents</category><category>data</category>
+  </item>
+
   <item>
     <guid>https://gavinray97.github.io/blog/llm-build-cheaper-than-searching</guid>
     <title>Disposable Software: When generating code costs less than finding it</title>

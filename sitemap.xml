@@ -69,6 +69,10 @@
   </url>
 
   <url>
+    <loc>https://gavinray97.github.io/blog/the-race-for-universal-context-layer</loc>
+  </url>
+
+  <url>
     <loc>https://gavinray97.github.io/blog/what-good-are-record-patterns</loc>
   </url>
 
@@ -77,11 +81,19 @@
   </url>
 
   <url>
+    <loc>https://gavinray97.github.io/tags/agents</loc>
+  </url>
+
+  <url>
     <loc>https://gavinray97.github.io/tags/c</loc>
   </url>
 
   <url>
     <loc>https://gavinray97.github.io/tags/cpp</loc>
+  </url>
+
+  <url>
+    <loc>https://gavinray97.github.io/tags/data</loc>
   </url>
 
   <url>
@@ -134,6 +146,10 @@
 
   <url>
     <loc>https://gavinray97.github.io/tags/linux</loc>
+  </url>
+
+  <url>
+    <loc>https://gavinray97.github.io/tags/llm</loc>
   </url>
 
   <url>
