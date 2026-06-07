@@ -1,0 +1,24 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>Gavin Ray Blog</title>
+      <link>https://gavinray97.github.io/blog</link>
+      <description></description>
+      <language>en-us</language>
+      <managingEditor>ray.gavin97@gmail.com (Gavin Ray)</managingEditor>
+      <webMaster>ray.gavin97@gmail.com (Gavin Ray)</webMaster>
+      <lastBuildDate>Sun, 07 Jun 2026 00:00:00 GMT</lastBuildDate>
+      <atom:link href="https://gavinray97.github.io/tags/career/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://gavinray97.github.io/blog/building-from-zero-after-addiction-prison-felony</guid>
+    <title>Building from Zero After Addiction, Prison, and a Felony</title>
+    <link>https://gavinray97.github.io/blog/building-from-zero-after-addiction-prison-felony</link>
+    <description>I spent ages 14-16 in a maximum-security juvenile prison, became a felon at 19, lost almost everything to addiction, and later rebuilt my life through software, open source, and a few people who took a chance on me. This is the condensed story, written for anyone wondering whether they have a future.</description>
+    <pubDate>Sun, 07 Jun 2026 00:00:00 GMT</pubDate>
+    <author>ray.gavin97@gmail.com (Gavin Ray)</author>
+    <category>non-technical</category><category>personal</category><category>career</category>
+  </item>
+
+    </channel>
+  </rss>
