@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0b1120"/>
+      <stop offset="100%" style="stop-color:#1e293b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f59e0b"/>
+      <stop offset="100%" style="stop-color:#fbbf24"/>
+    </linearGradient>
+    <linearGradient id="rise" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#334155"/>
+      <stop offset="55%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#fbbf24"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#fbbf24" stop-opacity="0.55"/>
+      <stop offset="100%" style="stop-color:#fbbf24" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Decorative grid dots -->
+  <g opacity="0.06" fill="#94a3b8">
+    <circle cx="60" cy="60" r="2"/><circle cx="120" cy="60" r="2"/><circle cx="180" cy="60" r="2"/><circle cx="240" cy="60" r="2"/><circle cx="300" cy="60" r="2"/><circle cx="360" cy="60" r="2"/><circle cx="420" cy="60" r="2"/><circle cx="480" cy="60" r="2"/><circle cx="540" cy="60" r="2"/><circle cx="600" cy="60" r="2"/><circle cx="660" cy="60" r="2"/><circle cx="720" cy="60" r="2"/><circle cx="780" cy="60" r="2"/><circle cx="840" cy="60" r="2"/><circle cx="900" cy="60" r="2"/><circle cx="960" cy="60" r="2"/><circle cx="1020" cy="60" r="2"/><circle cx="1080" cy="60" r="2"/><circle cx="1140" cy="60" r="2"/>
+    <circle cx="60" cy="120" r="2"/><circle cx="120" cy="120" r="2"/><circle cx="180" cy="120" r="2"/><circle cx="240" cy="120" r="2"/><circle cx="300" cy="120" r="2"/><circle cx="360" cy="120" r="2"/><circle cx="420" cy="120" r="2"/><circle cx="480" cy="120" r="2"/><circle cx="540" cy="120" r="2"/><circle cx="600" cy="120" r="2"/><circle cx="660" cy="120" r="2"/><circle cx="720" cy="120" r="2"/><circle cx="780" cy="120" r="2"/><circle cx="840" cy="120" r="2"/><circle cx="900" cy="120" r="2"/><circle cx="960" cy="120" r="2"/><circle cx="1020" cy="120" r="2"/><circle cx="1080" cy="120" r="2"/><circle cx="1140" cy="120" r="2"/>
+    <circle cx="60" cy="570" r="2"/><circle cx="120" cy="570" r="2"/><circle cx="180" cy="570" r="2"/><circle cx="240" cy="570" r="2"/><circle cx="300" cy="570" r="2"/><circle cx="360" cy="570" r="2"/><circle cx="420" cy="570" r="2"/><circle cx="480" cy="570" r="2"/><circle cx="540" cy="570" r="2"/><circle cx="600" cy="570" r="2"/><circle cx="660" cy="570" r="2"/><circle cx="720" cy="570" r="2"/><circle cx="780" cy="570" r="2"/><circle cx="840" cy="570" r="2"/><circle cx="900" cy="570" r="2"/><circle cx="960" cy="570" r="2"/><circle cx="1020" cy="570" r="2"/><circle cx="1080" cy="570" r="2"/><circle cx="1140" cy="570" r="2"/>
+  </g>
+
+  <!-- Accent bar at top -->
+  <rect x="0" y="0" width="1200" height="4" fill="url(#accent)"/>
+
+  <!-- Giant faded background word -->
+  <text x="600" y="400" text-anchor="middle" font-family="'Georgia', serif" font-size="200" font-weight="bold" fill="#fbbf24" opacity="0.04" letter-spacing="-4">ZERO</text>
+
+  <!-- Rising line: from dark low-left to bright high-right -->
+  <polyline points="80,560 230,540 360,495 500,500 620,430 760,360 890,250 1040,150"
+            fill="none" stroke="url(#rise)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+
+  <!-- Plateau / setback nodes along the climb -->
+  <g>
+    <circle cx="80" cy="560" r="6" fill="#475569"/>
+    <circle cx="360" cy="495" r="6" fill="#64748b"/>
+    <circle cx="500" cy="500" r="6" fill="#6366f1"/>
+    <circle cx="760" cy="360" r="7" fill="#818cf8"/>
+    <circle cx="890" cy="250" r="7" fill="#fbbf24"/>
+  </g>
+
+  <!-- Glow + endpoint at the top, the "made it" point -->
+  <circle cx="1040" cy="150" r="60" fill="url(#glow)"/>
+  <circle cx="1040" cy="150" r="11" fill="#fbbf24"/>
+  <circle cx="1040" cy="150" r="11" fill="none" stroke="#fde68a" stroke-width="2" opacity="0.8"/>
+
+  <!-- Title -->
+  <text x="80" y="225" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-weight="700" fill="#f1f5f9">
+    <tspan font-size="62">Building from Zero</tspan>
+  </text>
+  <text x="80" y="300" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-weight="700" fill="url(#accent)">
+    <tspan font-size="40">After Addiction, Prison, and a Felony</tspan>
+  </text>
+
+  <!-- Divider -->
+  <rect x="82" y="335" width="220" height="2" fill="#fbbf24" opacity="0.4" rx="1"/>
+
+  <!-- Subtitle -->
+  <text x="82" y="380" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" fill="#94a3b8">
+    Rebuilding a life through software, open source, and second chances
+  </text>
+
+  <!-- Bottom tag line -->
+  <text x="84" y="585" font-family="'Courier New', monospace" font-size="16" fill="#64748b" letter-spacing="3">A PERSONAL STORY</text>
+</svg>
