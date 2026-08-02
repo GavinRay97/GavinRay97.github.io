@@ -18,6 +18,17 @@ There are two programming language features that facilitate this, and I'm convin
 1. Design-by-Contract
 2. Effects
 
+The net result of these is the possibility to have compiler-generated reports of _semantic_ changes in a PR, like:
+
+```yaml
+Effects added: PaymentProcessor.process
+  + net.connect
+  + retry.nondeterministic
+
+Postcondition weakened: Ledger.append
+  - ensures ledger.length == old(ledger.length) + 1
+```
+
 > **AI (Dis)use Disclaimer:** No part of the prose was machine-generated. You will not find machine-written prose on this blog. I consider it deeply disrespectful.
 
 ## Design-by-Contract
