@@ -7,9 +7,19 @@
       <language>en-us</language>
       <managingEditor>ray.gavin97@gmail.com (Gavin Ray)</managingEditor>
       <webMaster>ray.gavin97@gmail.com (Gavin Ray)</webMaster>
-      <lastBuildDate>Sat, 17 May 2025 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Sun, 02 Aug 2026 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://gavinray97.github.io/tags/llms/feed.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://gavinray97.github.io/blog/design-by-contract-and-effects-for-llms</guid>
+    <title>Design by Contract and effects are essential for LLM-generated code</title>
+    <link>https://gavinray97.github.io/blog/design-by-contract-and-effects-for-llms</link>
+    <description>As LLMs write more code, contracts and effect systems become essential tools for constraining behavior, exposing side effects, and verifying implementations.</description>
+    <pubDate>Sun, 02 Aug 2026 00:00:00 GMT</pubDate>
+    <author>ray.gavin97@gmail.com (Gavin Ray)</author>
+    <category>programming</category><category>llms</category>
+  </item>
+
   <item>
     <guid>https://gavinray97.github.io/blog/overcoming-dialect-sql-generation-limits</guid>
     <title>AI SQL Generation: Overcoming dialect-specific syntax errors</title>

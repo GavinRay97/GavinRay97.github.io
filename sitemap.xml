@@ -49,6 +49,10 @@
   </url>
 
   <url>
+    <loc>https://gavinray97.github.io/blog/design-by-contract-and-effects-for-llms</loc>
+  </url>
+
+  <url>
     <loc>https://gavinray97.github.io/blog/io-uring-fixed-bufferpool-zig</loc>
   </url>
 
@@ -81,11 +85,11 @@
   </url>
 
   <url>
-    <loc>https://gavinray97.github.io/tags/agents</loc>
+    <loc>https://gavinray97.github.io/tags/ai</loc>
   </url>
 
   <url>
-    <loc>https://gavinray97.github.io/tags/ai</loc>
+    <loc>https://gavinray97.github.io/tags/agents</loc>
   </url>
 
   <url>
@@ -190,6 +194,10 @@
 
   <url>
     <loc>https://gavinray97.github.io/tags/postgres</loc>
+  </url>
+
+  <url>
+    <loc>https://gavinray97.github.io/tags/programming</loc>
   </url>
 
   <url>
