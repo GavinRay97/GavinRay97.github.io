@@ -7,9 +7,19 @@
       <language>en-us</language>
       <managingEditor>ray.gavin97@gmail.com (Gavin Ray)</managingEditor>
       <webMaster>ray.gavin97@gmail.com (Gavin Ray)</webMaster>
-      <lastBuildDate>Tue, 05 May 2026 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Wed, 21 Oct 2026 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://gavinray97.github.io/tags/agents/feed.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://gavinray97.github.io/blog/undiscovered-public-knowledge</guid>
+    <title>Quasi-Riemann, Biologic Discovery, and Swanson&#39;s &quot;Undiscovered Public Knowledge&quot;</title>
+    <link>https://gavinray97.github.io/blog/undiscovered-public-knowledge</link>
+    <description>From mathematical proofs to biological discoveries, AI is connecting ideas across disciplines, bringing new scale to Don Swanson&#39;s &quot;undiscovered public knowledge&quot;.</description>
+    <pubDate>Wed, 21 Oct 2026 00:00:00 GMT</pubDate>
+    <author>ray.gavin97@gmail.com (Gavin Ray)</author>
+    <category>ai</category><category>llm</category><category>agents</category><category>non-technical</category>
+  </item>
+
   <item>
     <guid>https://gavinray97.github.io/blog/the-race-for-universal-context-layer</guid>
     <title>The Race to Become the Context Layer for Agents</title>
